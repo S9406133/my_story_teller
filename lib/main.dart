@@ -13,7 +13,6 @@ import 'package:my_story_teller/elements/nav_bar.dart';
 
 void main() {
   runApp(MaterialApp(
-
     title: 'My Story Teller',
 
     // Route map for Navigator
@@ -22,36 +21,33 @@ void main() {
     // Add routes as screens created
     routes: {
       '/': (context) => const SplashScr(),                //Splash Screen TODO needs updating
-      '/login': (context) => const Login(),               //Login COMPLETED
-      '/pNav': (context) => const ProfileNav(),           //Profile Navigation COMPLETED
-      '/regis': (context) => const Registration(),        //User Registration COMPLETED
-      '/cHome': (context) => const ChildHome(),           //Child Home COMPLETED
-      '/pHome': (context) => const BottomNav(index: 0),   //Parent HOME COMPLETED
-      '/addProf': (context) => const BottomNav(index: 1), //Update Profiles COMPLETED
+      '/login': (context) => const Login(),               ///Login COMPLETED
+      '/pNav': (context) => const ProfileNav(),           ///Profile Navigation COMPLETED
+      '/regis': (context) => const Registration(),        ///User Registration COMPLETED
+      '/cHome': (context) => const ChildHome(),           ///Child Home COMPLETED
+      '/pHome': (context) => const BottomNav(index: 0),   ///Parent HOME COMPLETED
+      '/addProf': (context) => const BottomNav(index: 1), ///Update Profiles COMPLETED
       '/search': (context) => const BottomNav(index: 2),  //Search Screen TODO
-      '/saved': (context) => const BottomNav(index: 3),   //Saved Books COMPLETED
-      '/settings': (context) => const BottomNav(index: 4),//Settings not an MVF
-      '/book': (context) => const BookView(),             //Book View COMPLETED
+      '/saved': (context) => const BottomNav(index: 3),   ///Saved Books COMPLETED
+      '/settings': (context) => const BottomNav(index: 4),///Settings not an MVF
+      '/book': (context) => const BookView(),             ///Book View COMPLETED
       '/searchRes': (context) => const SearchResults(),   //Search Results TODO
       '/bookDescr': (context) => const BookDescr(),       //Book Description TODO
-      '/recView': (context) => const RecordingView(),     //Recording View TODO needs action button
+      '/recView': (context) => const RecordingView(),     //Recording View TODO needs to play recordings
       '/bookRec': (context) => const BookRecording(),     //Book Recording TODO
     },
-
-    // TODO
-    // theme: ThemeData(
-    //   primarySwatch: Colors.blue,
-    // ),
-    //  FEFEFE White
-    //
-    // ADC178 Middle Green Yellow
-    //
-    // 4ECDC4 Medium Turquoise
-    //
-    // 293241 Gunmetal
-
-
   )
   );
 }
+
+/* Colors */
+Color a = Color(0xFFADC178);
+var a2 = Colors.lightGreen[300];
+
+Color b = Color(0xFF4ECDC4);
+var b2 = Colors.teal[300];
+
+Color c = Color(0xFF293241);
+var c2 = Colors.blueGrey[800];
+
 

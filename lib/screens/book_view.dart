@@ -16,8 +16,7 @@ class BookView extends StatefulWidget {
 }
 
 class _BookViewState extends State<BookView> {
-  final bgColor = Colors.blueGrey;
-  final buttonColor = Colors.teal;
+  final bgColor = Colors.teal;
 
   final Book _currentBook = users[currentUserIndex].savedBooks[currentBookIndex];
   int _numPages = 0;
@@ -73,7 +72,7 @@ class _BookViewState extends State<BookView> {
             itemCount: _numPages,
             pagination: const SwiperPagination(
               builder: SwiperPagination.fraction,
-              alignment: Alignment.topCenter,
+              alignment: Alignment(0.0, -1.0),  // Doesn't Work???
             ),
             control: const SwiperControl(),
             loop: false,

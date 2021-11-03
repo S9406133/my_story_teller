@@ -14,7 +14,6 @@ class ProfileNav extends StatefulWidget {
 class _ProfileNavState extends State<ProfileNav> {
 
   final bgColor = Colors.blueGrey;
-  final buttonColor = Colors.teal;
 
   @override
   Widget build(BuildContext context) {
@@ -127,9 +126,9 @@ class _ProfileNavState extends State<ProfileNav> {
                                       }else{
                                         // Shows new dialog if password incorrect
                                         showDialog<String>(
-                                            context: context,
-                                            builder: (BuildContext context) => const MyDialog(
-                                                title: 'Incorrect Passcode')
+                                          context: context,
+                                          builder: (BuildContext context) => const MyDialog(
+                                              title: 'Incorrect Passcode'),
                                         );
                                       }
                                     },

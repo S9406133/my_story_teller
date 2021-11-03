@@ -20,10 +20,45 @@ class _BookRecordingState extends State<BookRecording> {
   final Book _currentBook = users[currentUserIndex].savedBooks[currentBookIndex];
   int _numPages = 0;
 
+  // Variables for Record button
+  bool _recordPaused = true;
+  Icon _recordIcon = const Icon(Icons.play_arrow);
+  // Variables for Review button
+  bool _reviewPaused = true;
+  Icon _reviewIcon = const Icon(Icons.play_arrow);
+
   @override
   void initState() {
     _numPages = _currentBook.pages.length;
+    _recordIcon = const Icon(Icons.play_arrow);
+    _reviewIcon = const Icon(Icons.play_arrow, size: 25);
     super.initState();
+  }
+
+  // Record Button
+  void record() {
+    if (_recordPaused == false) {
+      _recordPaused = true;
+      //_controller.stopAutoplay();
+      _recordIcon = const Icon(Icons.play_arrow);
+    } else {
+      _recordPaused = false;
+      //_controller.startAutoplay();
+      _recordIcon = const Icon(Icons.pause);
+    }
+  }
+
+  // Review button
+  void review() {
+    if (_reviewPaused == false) {
+      _reviewPaused = true;
+      //_controller.stopAutoplay();
+      _reviewIcon = const Icon(Icons.play_arrow, size: 25);
+    } else {
+      _reviewPaused = false;
+      //_controller.startAutoplay();
+      _reviewIcon = const Icon(Icons.stop, size: 25);
+    }
   }
 
   @override
@@ -45,63 +80,147 @@ class _BookRecordingState extends State<BookRecording> {
           ),
           ],
         ),
+
         body: SafeArea(
           child: Center(
             child: Column(
-                children: <Widget>[
+              children: <Widget>[
 
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                    height: 38,
-                    child: Text(_currentBook.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
+                Container(      // Book Title Bar
+                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                  height: 38,
+                  child: Text(_currentBook.title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
                     ),
                   ),
+                ),
 
-                    Expanded(
-                      child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        // border: Border(
-                        //   top: BorderSide(),
-                        // ),
+                Expanded(             // Swiper
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: Swiper(
+                      itemBuilder: (BuildContext context,int index){
+                        return Card(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: Image.asset(
+                                _currentBook.pages[index],
+                                fit: BoxFit.fill
+                            ),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 20,
+                          margin: const EdgeInsets.all(20),
+                        );
+                      },
+                      itemCount: _numPages,
+                      pagination: const SwiperPagination(
+                        builder: SwiperPagination.fraction,
+                        alignment: Alignment.topCenter,
                       ),
-                      child: Swiper(
-                        itemBuilder: (BuildContext context,int index){
-                          return Card(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
-                              child: Image.asset(
-                                  _currentBook.pages[index],
-                                  fit: BoxFit.fill
-                              ),
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            elevation: 20,
-                            margin: const EdgeInsets.all(20),
+                      control: const SwiperControl(),
+                      loop: false,
+                    ),
+                  ),
+                ),
+
+                Container(        // Bottom control bar
+                  height: 80,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Colors.white12,
+                  ),
+                  child: ButtonBar(
+                    alignment: MainAxisAlignment.center,
+                    children: <Widget>[
+
+                      ElevatedButton.icon(           // Review button
+                        onPressed: () {
+                          setState(() {
+                            review();}
                           );
                         },
-                        itemCount: _numPages,
-                        pagination: const SwiperPagination(
-                          builder: SwiperPagination.fraction,
-                          alignment: Alignment.topCenter,
+                        icon: _reviewIcon,
+                        label: const Text('Review',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
-                        control: const SwiperControl(),
-                        loop: false,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(buttonColor),
+                          minimumSize: MaterialStateProperty.all(const Size(110,35)),
+                        ),
                       ),
-                    ),
-                  ),
+                      const SizedBox(width: 10),
 
-                ]
+                      FloatingActionButton.large(   // Record Button
+                        onPressed: () {
+                          setState(() {
+                            record();}
+                          );
+                        },
+                        backgroundColor: Colors.red,
+                        child: _recordIcon,
+                      ),
+                      const SizedBox(width: 10),
+
+                      ElevatedButton.icon(           // Save Button
+                        onPressed: () {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('The current recording will be saved to your user account.',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Cancel',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                                TextButton(                 //TODO button to save recording
+                                  onPressed: () => Navigator.pop(context, 'OK'),
+                                  child: const Text('OK',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.save_alt,
+                          size: 25,
+                        ),
+                        label: const Text('  Save',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(buttonColor),
+                          minimumSize: MaterialStateProperty.all(const Size(110,35)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         )
-      //TODO
     );
   }
 }

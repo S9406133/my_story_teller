@@ -13,8 +13,9 @@ class ChildHome extends StatefulWidget {
 
 class _ChildHomeState extends State<ChildHome> {
 
-  final bgColor = Colors.blueGrey;
+  final bgColor = Colors.teal;
   final buttonColor = Colors.teal;
+
   String _newText = '';
   final String _childName = users[currentUserIndex].current.firstname;
 
@@ -145,9 +146,9 @@ class _ChildHomeState extends State<ChildHome> {
                           }else{
                             // Shows new dialog if password incorrect
                             showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => const MyDialog(
-                                    title: 'Incorrect Password')
+                              context: context,
+                              builder: (BuildContext context) => const MyDialog(
+                                  title: 'Incorrect Password'),
                             );
                           }
                         },

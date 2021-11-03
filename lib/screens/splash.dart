@@ -12,8 +12,6 @@ class SplashScr extends StatefulWidget {
 }
 
 class _SplashScrState extends State<SplashScr> {
-  final bgColor = Colors.blueGrey;
-  final buttonColor = Colors.teal;
 
   @override
   void initState() {   // Adds test profiles to the test user
@@ -27,7 +25,7 @@ class _SplashScrState extends State<SplashScr> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor[100],
+      //backgroundColor: primColor,
       body: Center(
         child: Column(
           children: <Widget>[
@@ -37,14 +35,13 @@ class _SplashScrState extends State<SplashScr> {
               padding: const EdgeInsets.all(10),
               width: 250,
               height: 250,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-                border: Border.all(
-                  color: bgColor,
-                  width: 10,
-                ),
-              ),
-              //child: Image.network('https://www.scholastic.com/content/parents/en/books-and-reading/raise-a-reader-blog/make-reading-fun-these-3-easy-tips/_jcr_content.img.600.high.png'),
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(40),
+              //   border: Border.all(
+              //     //color: bgColor,
+              //     width: 10,
+              //   ),
+              // ),
               child: Image.asset('assets/ReadingImage.jpg'),
             ),
             const SizedBox(height: 10),
@@ -68,34 +65,11 @@ class _SplashScrState extends State<SplashScr> {
                 ),
               ),
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(buttonColor),
+                //backgroundColor: MaterialStateProperty.all(buttonColor),
                 padding: MaterialStateProperty.all(
                     const EdgeInsets.fromLTRB(38, 10, 38, 10)),
               ),
             ),
-
-            // const SizedBox(height: 30.0),
-            // const Text('New User?',
-            //   style: TextStyle(
-            //     fontWeight: FontWeight.bold,
-            //     fontSize: 22,
-            //   ),
-            // ),
-            //
-            // ElevatedButton(                         // Sign up button
-            //   onPressed: () {print('Splash-SignUp');
-            //   Navigator.pushNamed(context, '/regis');},
-            //   child: const Text('SIGN UP',
-            //     style: TextStyle(
-            //       fontSize: 20,
-            //     ),
-            //   ),
-            //   style: ButtonStyle(
-            //     backgroundColor: MaterialStateProperty.all(buttonColor),
-            //     padding: MaterialStateProperty.all(
-            //         const EdgeInsets.fromLTRB(30, 10, 30, 10)),
-            //   ),
-            // ),
           ],
         ),
       ),

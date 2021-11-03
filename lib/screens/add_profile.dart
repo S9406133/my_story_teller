@@ -26,9 +26,9 @@ class _AddProfileState extends State<AddProfile> {
   bool fieldsEmpty(){
     if(firstName.isEmpty || lastName.isEmpty || email.isEmpty){
       showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => const MyDialog(
-              title: 'Please enter data in all fields')
+        context: context,
+        builder: (BuildContext context) => const MyDialog(
+            title: 'Please enter data in all fields'),
       );
       return true;
     }
@@ -217,11 +217,11 @@ class _AddProfileState extends State<AddProfile> {
                                           } else {
                                             // Shows new dialog if no passcode entered
                                             showDialog<String>(
-                                                context: context,
-                                                builder: (
-                                                    BuildContext context) =>
-                                                const MyDialog(
-                                                    title: 'Please enter a Passcode')
+                                              context: context,
+                                              builder: (
+                                                  BuildContext context) =>
+                                              const MyDialog(
+                                                  title: 'Please enter a Passcode'),
                                             );
                                           }
                                         },

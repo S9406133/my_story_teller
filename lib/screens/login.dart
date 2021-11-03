@@ -15,13 +15,14 @@ class _LoginState extends State<Login> {
 
   final bgColor = Colors.blueGrey;
   final buttonColor = Colors.teal;
+
   // Variables to hold entered text
   String username = ' ', password = ' ';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor[100],
+      //backgroundColor: bgColor[100],
       body: Center(
         child: SafeArea(
           child: SingleChildScrollView(
@@ -44,14 +45,13 @@ class _LoginState extends State<Login> {
                   padding: const EdgeInsets.all(10),
                   width: 180,
                   height: 180,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                    border: Border.all(
-                      color: bgColor,
-                      width: 10,
-                    ),
-                  ),
-                  //child: Image.network('https://www.scholastic.com/content/parents/en/books-and-reading/raise-a-reader-blog/make-reading-fun-these-3-easy-tips/_jcr_content.img.600.high.png'),
+                  // decoration: BoxDecoration(
+                  //   borderRadius: BorderRadius.circular(40),
+                  //   border: Border.all(
+                  //     color: bgColor,
+                  //     width: 10,
+                  //   ),
+                  // ),
                   child: FittedBox(
                     child: Image.asset('assets/ReadingImage.jpg'),
                     fit: BoxFit.fitWidth,
@@ -118,9 +118,9 @@ class _LoginState extends State<Login> {
                       Navigator.popAndPushNamed(context, '/pNav');
                     }else{
                       showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) => const MyDialog(
-                              title: 'Incorrect Username or Password')
+                        context: context,
+                        builder: (BuildContext context) => const MyDialog(
+                            title: 'Incorrect Username or Password'),
                       );
                     }
                   },

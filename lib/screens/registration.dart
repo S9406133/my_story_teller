@@ -43,7 +43,7 @@ class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor[100],
+      //backgroundColor: bgColor[100],
       /* App Bar */
       appBar: AppBar(
         backgroundColor: bgColor[300],
@@ -153,15 +153,15 @@ class _RegistrationState extends State<Registration> {
                         if(firstName.isEmpty || lastName.isEmpty || // If text fields empty
                             email.isEmpty || password.isEmpty){
                           showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => const MyDialog(
-                                  title: 'Please enter data in all fields')
+                            context: context,
+                            builder: (BuildContext context) => const MyDialog(
+                                title: 'Please enter data in all fields'),
                           );
                         } else if (isChecked == false) {  // If checkbox not checked
                           showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => const MyDialog(
-                                  title: 'Please view the terms and conditions')
+                            context: context,
+                            builder: (BuildContext context) => const MyDialog(
+                                title: 'Please view the terms and conditions'),
                           );
                         }else{            // Creates account
                           createUser(firstName, lastName, email, password);

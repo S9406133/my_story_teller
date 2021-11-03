@@ -15,15 +15,13 @@ class RecordingView extends StatefulWidget {
 }
 
 class _RecordingViewState extends State<RecordingView> {
-  final bgColor = Colors.blueGrey;
+  final bgColor = Colors.teal;
 
   final Book _currentBook = users[currentUserIndex].savedBooks[currentBookIndex];
 
   // A local list of the recordings for the current book
   List<Recording> _recordingList = [];
   int _recordingIndex = 0;
-
-
   int _numPages = 0;
   var _playIcon = const Icon(Icons.play_arrow);
   bool _isPaused = true;
@@ -39,7 +37,7 @@ class _RecordingViewState extends State<RecordingView> {
     _isPaused = true;
     // Creates a list of all recordings for the current book
     for (int i=0; i < _currentBook.recordings.length; i++){
-        _recordingList.add(_currentBook.recordings[i]);
+      _recordingList.add(_currentBook.recordings[i]);
     }
     super.initState();
   }
@@ -94,12 +92,13 @@ class _RecordingViewState extends State<RecordingView> {
               margin: EdgeInsets.zero,
               padding: EdgeInsets.fromLTRB(16, 16, 165, 0),
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.teal,
               ),
               child: Text('Available Recordings',
                 style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -182,13 +181,13 @@ class _RecordingViewState extends State<RecordingView> {
           ),
 
           Container(        // Bottom control bar
-            height: 60,
+            height: 65,
+            alignment: Alignment.center,
             decoration: const BoxDecoration(
-              color: Colors.white24,
+              color: Colors.grey,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: ButtonBar(
+              alignment: MainAxisAlignment.center,
               children: <Widget>[
 
                 IconButton(           // Previous button
@@ -196,7 +195,7 @@ class _RecordingViewState extends State<RecordingView> {
                   icon: const Icon(Icons.skip_previous),
                   iconSize: 35,
                 ),
-                const SizedBox(width: 18),
+                const SizedBox(width: 10),
 
                 IconButton(           // Play/Pause button
                   onPressed: () {
@@ -207,7 +206,7 @@ class _RecordingViewState extends State<RecordingView> {
                   icon: _playIcon,
                   iconSize: 35,
                 ),
-                const SizedBox(width: 18),
+                const SizedBox(width: 10),
 
                 IconButton(           // Stop button
                   onPressed: () {
@@ -218,7 +217,7 @@ class _RecordingViewState extends State<RecordingView> {
                   icon: const Icon(Icons.stop),
                   iconSize: 35,
                 ),
-                const SizedBox(width: 18),
+                const SizedBox(width: 10),
 
                 IconButton(           // Next button
                   onPressed: () => next(),
@@ -227,7 +226,7 @@ class _RecordingViewState extends State<RecordingView> {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
