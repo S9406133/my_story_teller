@@ -32,7 +32,7 @@ void main() {
       '/settings': (context) => const BottomNav(index: 4),///Settings not an MVF
       '/book': (context) => const BookView(),             ///Book View COMPLETED
       '/searchRes': (context) => const SearchResults(),   //Search Results TODO
-      '/bookDescr': (context) => const BookDescr(),       //Book Description TODO
+      '/bookDescr': (context) => BookDescr(),             //Book Description TODO
       '/recView': (context) => const RecordingView(),     //Recording View TODO needs to play recordings
       '/bookRec': (context) => const BookRecording(),     //Book Recording TODO
     },

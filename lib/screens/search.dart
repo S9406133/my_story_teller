@@ -27,7 +27,11 @@ class Search extends StatelessWidget {
         ),
         ],
       ),
-      //body:
+      body: Center(
+        child: TextButton(onPressed: () => Navigator.pushNamed(context, '/bookDescr'),
+          child: Text('Book Description'),
+        ),
+      )
       //TODO
     );
   }
