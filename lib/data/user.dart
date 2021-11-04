@@ -22,7 +22,12 @@ class User {
     current = profiles[0];
   }
 
-  void addProfile(Profile newProfile) => profiles.add(newProfile);
+ // void addProfile(Profile newProfile) => profiles.add(newProfile);
+
+  // Adds new profile to current user
+  void addProfile(String firstname, String lastname, bool child) {
+    profiles.add(Profile(firstname, lastname, child));
+  }
 
   void removeProfile(int index) => profiles.removeAt(index);
 
@@ -36,10 +41,35 @@ class User {
 
   void setCurrentProfile(int index) => current = profiles[index];
 
-  void saveBook(Book book) => savedBooks.add(book);
+  // checks if a book has
+  bool bookExists(String title) {
+    bool exists = false;
+    for(int i=0; i < savedBooks.length; i++) {
+      if (savedBooks[i].title == title) {
+        exists = true;
+        break;
+      }
+    }
+    return exists;
+  }
+
+  // Saves a book to the current user if not already saved
+  bool saveBook(Book book) {
+    bool exists = true;
+    
+    exists = bookExists(book.title);
+    
+    if (exists == true) {
+      return false;
+    }else {
+      savedBooks.add(book);
+      return true;
+    }
+  }
 
   void addRecording(int index, Recording recording) =>
       books[index].recordings.add(recording);
+
 }
 
 /* Defines user profiles */
@@ -67,15 +97,15 @@ class Profile {
 List<User> users = [User('Tom', 'King', 'tom@mail.com', '1234')];
 
 void addTestProfiles() {
-  users[0].addProfile(Profile('Lucy', 'King', false));
+  users[0].addProfile('Lucy', 'King', false);
   users[0].getProfile(1).setEmail('lucy@mail.com');
   users[0].getProfile(1).setPasscode('1234');
-  users[0].addProfile(Profile('Morgan', 'King', true));
-  users[0].addProfile(Profile('Steven', 'King', true));
-  users[0].addProfile(Profile('Sophie', 'King', true));
-  users[0].addProfile(Profile('Andrew', 'King', true));
-  users[0].addProfile(Profile('Reggie', 'King', true));
-  users[0].addProfile(Profile('Frank', 'King', true));
+  users[0].addProfile('Morgan', 'King', true);
+  users[0].addProfile('Steven', 'King', true);
+  users[0].addProfile('Sophie', 'King', true);
+  users[0].addProfile('Andrew', 'King', true);
+  users[0].addProfile('Reggie', 'King', true);
+  users[0].addProfile('Frank', 'King', true);
 }
 
 // Saves books and recordings to test user account
@@ -112,11 +142,6 @@ void createUser(String firstName, lastName, email, password){
   currentUserIndex = (users.length - 1);
 }
 
-// Adds new profile to current user
-void addProfile(String firstname, String lastname, bool child) {
-  users[currentUserIndex].addProfile(Profile(firstname, lastname, child));
-}
-
 // Used when user logs in returns false if login text doesn't match
 // Sets currentUserIndex and returns true if text matches
 bool setCurrentUser(String email, password){
@@ -127,7 +152,6 @@ bool setCurrentUser(String email, password){
       break;
     }
   }
-
   if (index == -1){
     print('No such Email!');
     return false;

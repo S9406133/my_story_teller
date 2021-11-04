@@ -13,7 +13,6 @@ class ParentHome extends StatefulWidget {
 class _ParentHomeState extends State<ParentHome> {
 
   final bgColor = Colors.blueGrey;
-  final buttonColor = Colors.white24;
 
   final String userName = users[currentUserIndex].current.firstname +
       ' ' + users[currentUserIndex].current.lastname;
@@ -136,7 +135,7 @@ class HomeScreenButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(  // Search Button
+    return SizedBox(
       width: 300,
       height: 50,
       child: ElevatedButton(

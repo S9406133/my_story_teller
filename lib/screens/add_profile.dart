@@ -16,6 +16,8 @@ class _AddProfileState extends State<AddProfile> {
   final bgColor = Colors.blueGrey;
   final buttonColor = Colors.white;
 
+  final User _currentUser = users[currentUserIndex];
+
   // Variable to save radio button state
   Object? val = -1;
 
@@ -182,13 +184,9 @@ class _AddProfileState extends State<AddProfile> {
                                           // Checks if data has been entered
                                           if (newText.isNotEmpty) {
                                             // Creates a new adult profile and shows success dialog
-                                            addProfile(firstName, lastName, isChild);
-                                            users[currentUserIndex]
-                                                .profiles[users[currentUserIndex]
-                                                .numProfiles() - 1].setPasscode(newText);
-                                            users[currentUserIndex]
-                                                .profiles[users[currentUserIndex]
-                                                .numProfiles() - 1].setEmail(email);
+                                            _currentUser.addProfile(firstName, lastName, isChild);
+                                            _currentUser.profiles[_currentUser.numProfiles() - 1].setPasscode(newText);
+                                            _currentUser.profiles[_currentUser.numProfiles() - 1].setEmail(email);
                                             Navigator.pop(context);
                                             showDialog<String>(
                                               context: context,
@@ -247,7 +245,7 @@ class _AddProfileState extends State<AddProfile> {
                             );
                           }else{
                             // Creates new child profile then shows success dialog
-                            addProfile(firstName, lastName, isChild);
+                            _currentUser.addProfile(firstName, lastName, isChild);
                             showDialog<String>(
                               context: context,
                               builder: (BuildContext context) =>
