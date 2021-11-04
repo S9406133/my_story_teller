@@ -1,12 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:my_story_teller/data/book.dart';
+import 'package:my_story_teller/data/user.dart';
 
 /* Search screen - Route '/search' */
 
-class Search extends StatelessWidget {
+class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
 
+  @override
+  State<Search> createState() => _SearchState();
+}
+
+class _SearchState extends State<Search> {
   final bgColor = Colors.blueGrey;
   final buttonColor = Colors.teal;
+
+  List<Book> _searchList = [];
+  String _newText = '';
+  String _dropdownValue = 'Title';
+
+  void searchBooks() {
+    for (int i=0; i < books.length; i++){
+      switch(_dropdownValue){
+        case 'Title':
+          if(books[i].title.toLowerCase().contains(_newText.toLowerCase())){
+            _searchList.add(books[i]);
+          }
+          break;
+        case 'Author':
+          if(books[i].author.toLowerCase().contains(_newText.toLowerCase())){
+            _searchList.add(books[i]);
+          }
+          break;
+        case 'Category':
+          for (int a=0; a < books[i].categories!.length; a++) {
+            if (books[i].categories![a].toLowerCase().contains(_newText.toLowerCase())) {
+              _searchList.add(books[i]);
+            }
+          }
+          break;
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +51,8 @@ class Search extends StatelessWidget {
       /* App Bar */
       appBar: AppBar(
         backgroundColor: bgColor[300],
-        title: Text('Search'),
-        titleTextStyle: TextStyle(
+        title: const Text('Book Search'),
+        titleTextStyle: const TextStyle(
           fontSize: 24,
         ),
         centerTitle: true,
@@ -27,12 +63,136 @@ class Search extends StatelessWidget {
         ),
         ],
       ),
-      body: Center(
-        child: TextButton(onPressed: () => Navigator.pushNamed(context, '/bookDescr'),
-          child: Text('Book Description'),
+
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            const SizedBox(height: 10,),
+            /* Search Bar */
+            Container(
+              margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              width: 280,
+              child: TextField(
+                onChanged: (text) {
+                  _newText = text;
+                },
+                textAlign: TextAlign.start,
+                textAlignVertical: TextAlignVertical.top,
+                style: const TextStyle(
+                  fontSize: 22,
+                ),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  hintText: 'Search',
+                  filled: true,
+                  fillColor: bgColor[50],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                  color: bgColor[50],
+                    border: Border.all(color: Colors.black54),
+                    borderRadius: BorderRadius.circular(20),
+            ),
+                  margin: const EdgeInsets.fromLTRB(20, 10, 50, 10),
+                  padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                  child: DropdownButton<String>(
+                    value: _dropdownValue,
+                    icon: const Icon(Icons.arrow_drop_down),
+                    iconSize: 40,
+                    elevation: 16,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 22,
+                    ),
+                    onChanged: (newValue) {
+                      setState(() {
+                        _dropdownValue = newValue!;
+                      });
+                    },
+                    items: <String>['Title', 'Author', 'Category']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+
+                FloatingActionButton(
+                  backgroundColor: buttonColor,
+                  onPressed: (){
+                    setState(() {
+                      _searchList = [];
+                      searchBooks();
+                    });
+                  },
+                  child: const Icon(Icons.search,
+                    size: 40,
+                  ),
+                ),
+              ],
+            ),
+
+            /* Search List */
+            Expanded(
+              child: Container(   // Adds top border
+                decoration: const BoxDecoration(
+                  border: Border(
+                    top: BorderSide(),
+                  ),
+                ),
+                child: ListView.builder(
+                  itemCount: _searchList.length,
+                  itemBuilder: (context, index){
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 5.0,
+                        horizontal: 10.0,
+                      ),
+                      child: Card(
+                        child: ListTile(
+                          onTap: (){
+                            setSelectedBook(_searchList[index]);
+                            Navigator.pushNamed(context, '/bookDescr');
+                          },
+                          isThreeLine: true,
+                          title: Text(_searchList[index].title,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(_searchList[index].description,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          leading: CircleAvatar(
+                            backgroundImage: AssetImage('${_searchList[index].image}'),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
-      )
-      //TODO
+      ),
     );
   }
 }

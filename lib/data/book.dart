@@ -35,10 +35,6 @@ class Recording {
   Recording(this.recorder, this.location, this.date, this.length);
 }
 
-// TODO put in search_results
-int searchedBookIndex = 0;
-List<Book> searchList = [];
-
 // Creates test list(array) of books
 // description has to be maximum 95 characters
 List<Book> books = [
@@ -137,6 +133,12 @@ void setTestPages() {
     String image = 'assets/TheCaseOfTheMissingSmile_$a.jpg';
     books[missingSmileIndex].addPage(image);
   }
+}
+
+Book selectedBook = books[0];
+
+void setSelectedBook (Book book){
+  selectedBook = book;
 }
 
 

@@ -13,7 +13,7 @@ class BookDescr extends StatefulWidget {
 }
 
 class _BookDescrState extends State<BookDescr> {
-  final Book _currentBook = books[searchedBookIndex];
+  //final Book selectedBook = books[searchedBookIndex];
   bool _exists = false;
   bool _visible = true;
 
@@ -22,7 +22,7 @@ class _BookDescrState extends State<BookDescr> {
 
   @override
   void initState() {
-    _exists = users[currentUserIndex].bookExists(books[searchedBookIndex].title);
+    _exists = users[currentUserIndex].bookExists(selectedBook.title);
     if (_exists == true) {
       _visible = false;
     }
@@ -30,7 +30,7 @@ class _BookDescrState extends State<BookDescr> {
   }
 
   void setExists() {
-    _exists = users[currentUserIndex].bookExists(books[searchedBookIndex].title);
+    _exists = users[currentUserIndex].bookExists(selectedBook.title);
     if (_exists == true) {
       _visible = false;
     }else{
@@ -58,7 +58,7 @@ class _BookDescrState extends State<BookDescr> {
         ],
       ),
 
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             const SizedBox(height: 30),
@@ -69,7 +69,7 @@ class _BookDescrState extends State<BookDescr> {
                   width: 150,
                   height: 150,
                   child: FittedBox(
-                    child: Image.asset(_currentBook.image!),
+                    child: Image.asset(selectedBook.image!),
                   ),
                 ),
                 Column(
@@ -78,7 +78,7 @@ class _BookDescrState extends State<BookDescr> {
                   children: [
                     SizedBox(
                       width: 230,
-                      child: Text(_currentBook.title,
+                      child: Text(selectedBook.title,
                         style: const TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -87,7 +87,7 @@ class _BookDescrState extends State<BookDescr> {
                     ),
                     SizedBox(
                       width: 220,
-                      child: Text(_currentBook.author,
+                      child: Text(selectedBook.author,
                         style: const TextStyle(
                           fontSize: 24,
                         ),
@@ -101,15 +101,48 @@ class _BookDescrState extends State<BookDescr> {
             Container(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
               width: 340,
-              height: 300,
-              child: Text(_currentBook.longDesc!,
+              //height: 300,
+              child: Text(selectedBook.longDesc!,
                 style: const TextStyle(
                   fontSize: 20,
                 ),
               ),
             ),
 
+            Container(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+              width: 340,
+              //height: 300,
+              child: Column(
+                children: [
+                  const Text('Categories:',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 340,
+                    height: 100,
+                    child: ListView.builder(
+                        itemCount: selectedBook.categories!.length,
+                        itemBuilder: (context, index){
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: Text(selectedBook.categories![index],
+                              style: const TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          );
+                        }
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
             Stack(
+              //alignment: AlignmentDirectional.bottomCenter,
               children: <Widget>[
 
                 Visibility(
@@ -117,13 +150,9 @@ class _BookDescrState extends State<BookDescr> {
                   child: Container(
                     padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
-                      //borderRadius: BorderRadius.circular(40),
-                      border: Border.all(
-                        //color: bgColor,
-                        //width: 10,
-                      ),
+                      border: Border.all(),
                     ),
-                    child: const Text('This book is already added',
+                    child: const Text('This book has been added',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -131,6 +160,7 @@ class _BookDescrState extends State<BookDescr> {
                     ),
                   ),
                 ),
+
 
                 SizedBox(
                   width: 300,
@@ -140,13 +170,12 @@ class _BookDescrState extends State<BookDescr> {
                     child: ElevatedButton(
                       onPressed: () {
                         bool _result = false;
-                        _result = users[currentUserIndex].saveBook(_currentBook);
-                        print('Added? $_result');
+                        _result = users[currentUserIndex].saveBook(selectedBook);
                         if (_result == true){
                           showDialog<String>(
                             context: context,
                             builder: (BuildContext context) => MyDialog(
-                                title: _currentBook.title +
+                                title: selectedBook.title +
                                     ' has been successfully added.'),
                           );
                         }
@@ -168,6 +197,7 @@ class _BookDescrState extends State<BookDescr> {
                 ),
               ],
             ),
+
           ],
         ),
       ),
