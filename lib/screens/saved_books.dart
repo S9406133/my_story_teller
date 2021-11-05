@@ -54,43 +54,50 @@ class SavedBooks extends StatelessWidget {
                           child: Column(    // Overall column
                             children: [
 
-                              Row(          // Image and description row
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(    // Image Container
-                                    height: 80,
-                                    width: 80,
-                                    padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                    child: Image.asset('${users[currentUserIndex].savedBooks[index].image}'),
-                                  ),
-                                  Column(       // Description column
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: 270,
-                                        height: 27,
-                                        child: Text(users[currentUserIndex].savedBooks[index].title,  // Title text
-                                          style: const TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold,
+                              GestureDetector(  // Makes top row of card tappable
+                                onTap: (){      // Displays Book Description
+                                  setSelectedBook(users[currentUserIndex].savedBooks[index]);
+                                  Navigator.pushNamed(context, '/bookDescr');
+                                },
+                                child: Row(          // Image and description row
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+
+                                    Container(    // Image Container
+                                      height: 80,
+                                      width: 80,
+                                      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                      child: Image.asset('${users[currentUserIndex].savedBooks[index].image}'),
+                                    ),
+
+                                    Column(       // Description column
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(        // Title text
+                                          width: 270,
+                                          height: 27,
+                                          child: Text(users[currentUserIndex].savedBooks[index].title,
+                                            style: const TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(       // Description text
-                                        width: 270,
-                                        height: 63,
-                                        child: Text(users[currentUserIndex].savedBooks[index].description,
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            //fontWeight: FontWeight.bold,
+                                        SizedBox(       // Description text
+                                          width: 270,
+                                          height: 63,
+                                          child: Text(users[currentUserIndex].savedBooks[index].description,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
 
                               Row(        // Button row

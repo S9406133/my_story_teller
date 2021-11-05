@@ -29,7 +29,7 @@ class _BookRecordingState extends State<BookRecording> {
 
   @override
   void initState() {
-    _numPages = _currentBook.pages.length;
+    _numPages = _currentBook.pages!.length;
     _recordIcon = const Icon(Icons.play_arrow);
     _reviewIcon = const Icon(Icons.play_arrow, size: 25);
     super.initState();
@@ -108,7 +108,7 @@ class _BookRecordingState extends State<BookRecording> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20.0),
                             child: Image.asset(
-                                _currentBook.pages[index],
+                                _currentBook.pages![index],
                                 fit: BoxFit.fill
                             ),
                           ),

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:my_story_teller/data/book.dart';
 import 'package:my_story_teller/data/user.dart';
 import 'package:card_swiper/card_swiper.dart';
 
@@ -17,7 +16,7 @@ class RecordingView extends StatefulWidget {
 class _RecordingViewState extends State<RecordingView> {
   final bgColor = Colors.teal;
 
-  final Book _currentBook = users[currentUserIndex].savedBooks[currentBookIndex];
+  final SavedBook _currentBook = users[currentUserIndex].savedBooks[currentBookIndex];
 
   // A local list of the recordings for the current book
   List<Recording> _recordingList = [];
@@ -32,7 +31,7 @@ class _RecordingViewState extends State<RecordingView> {
   @override
   void initState() {
     _controller = SwiperController();
-    _numPages = _currentBook.pages.length;
+    _numPages = _currentBook.pages!.length;
     _playIcon = const Icon(Icons.play_arrow);
     _isPaused = true;
     // Creates a list of all recordings for the current book
@@ -110,7 +109,6 @@ class _RecordingViewState extends State<RecordingView> {
                       color: Colors.white60,
                       child: ListTile(
                         onTap: () {
-                          print('Tile index: $index');
                           setRecordingIndex(index);
                           Navigator.pop(context);
                         },
@@ -158,7 +156,7 @@ class _RecordingViewState extends State<RecordingView> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
                     child: Image.asset(
-                        _currentBook.pages[index],
+                        _currentBook.pages![index],
                         fit: BoxFit.fill
                     ),
                   ),

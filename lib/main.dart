@@ -5,7 +5,6 @@ import 'package:my_story_teller/screens/profile_nav.dart';
 import 'package:my_story_teller/screens/registration.dart';
 import 'package:my_story_teller/screens/splash.dart';
 import 'package:my_story_teller/screens/book_view.dart';
-import 'package:my_story_teller/screens/search_results.dart';
 import 'package:my_story_teller/screens/book_descr.dart';
 import 'package:my_story_teller/screens/book_recording.dart';
 import 'package:my_story_teller/screens/recording_view.dart';
@@ -27,12 +26,11 @@ void main() {
       '/cHome': (context) => const ChildHome(),           ///Child Home COMPLETED
       '/pHome': (context) => const BottomNav(index: 0),   ///Parent HOME COMPLETED
       '/addProf': (context) => const BottomNav(index: 1), ///Update Profiles COMPLETED
-      '/search': (context) => const BottomNav(index: 2),  //Search Screen TODO
+      '/search': (context) => const BottomNav(index: 2),  ///Search Screen COMPLETED
       '/saved': (context) => const BottomNav(index: 3),   ///Saved Books COMPLETED
       '/settings': (context) => const BottomNav(index: 4),///Settings not an MVF
       '/book': (context) => const BookView(),             ///Book View COMPLETED
-      '/searchRes': (context) => const SearchResults(),   //Search Results TODO
-      '/bookDescr': (context) => BookDescr(),             //Book Description TODO
+      '/bookDescr': (context) => const BookDescr(),       ///Book Description COMPLETED
       '/recView': (context) => const RecordingView(),     //Recording View TODO needs to play recordings
       '/bookRec': (context) => const BookRecording(),     //Book Recording TODO
     },

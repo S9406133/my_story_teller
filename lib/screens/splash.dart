@@ -16,7 +16,7 @@ class _SplashScrState extends State<SplashScr> {
   @override
   void initState() {   // Adds test profiles to the test user
     addTestProfiles();
-    setTestPages();
+    setBookData();
     saveTestBooks();
     addTestRecordings();
     super.initState();
@@ -25,7 +25,6 @@ class _SplashScrState extends State<SplashScr> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: primColor,
       body: Center(
         child: Column(
           children: <Widget>[
@@ -35,13 +34,6 @@ class _SplashScrState extends State<SplashScr> {
               padding: const EdgeInsets.all(10),
               width: 250,
               height: 250,
-              // decoration: BoxDecoration(
-              //   borderRadius: BorderRadius.circular(40),
-              //   border: Border.all(
-              //     //color: bgColor,
-              //     width: 10,
-              //   ),
-              // ),
               child: Image.asset('assets/ReadingImage.jpg'),
             ),
             const SizedBox(height: 10),

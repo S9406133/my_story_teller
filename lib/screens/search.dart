@@ -15,11 +15,20 @@ class _SearchState extends State<Search> {
   final bgColor = Colors.blueGrey;
   final buttonColor = Colors.teal;
 
+  // List of books returned by the search method
   List<Book> _searchList = [];
+  // Value entered into the Search text box
   String _newText = '';
+  // Value selected in the dropdown list
   String _dropdownValue = 'Title';
 
+  // Search function called when button is pressed
+  // Searches by dropdown value and adds results to searchlist
   void searchBooks() {
+    if (_newText.isEmpty){
+      return;
+    }
+
     for (int i=0; i < books.length; i++){
       switch(_dropdownValue){
         case 'Title':
@@ -34,8 +43,10 @@ class _SearchState extends State<Search> {
           break;
         case 'Category':
           for (int a=0; a < books[i].categories!.length; a++) {
+            print('i:$i  a:$a');
             if (books[i].categories![a].toLowerCase().contains(_newText.toLowerCase())) {
               _searchList.add(books[i]);
+              break;
             }
           }
           break;
@@ -98,15 +109,16 @@ class _SearchState extends State<Search> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
                 Container(
                   decoration: BoxDecoration(
-                  color: bgColor[50],
+                    color: bgColor[50],
                     border: Border.all(color: Colors.black54),
                     borderRadius: BorderRadius.circular(20),
-            ),
+                  ),
                   margin: const EdgeInsets.fromLTRB(20, 10, 50, 10),
                   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                  child: DropdownButton<String>(
+                  child: DropdownButton<String>(      // Dropdown Button
                     value: _dropdownValue,
                     icon: const Icon(Icons.arrow_drop_down),
                     iconSize: 40,
@@ -119,7 +131,7 @@ class _SearchState extends State<Search> {
                       setState(() {
                         _dropdownValue = newValue!;
                       });
-                    },
+                    },              // Item list
                     items: <String>['Title', 'Author', 'Category']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
@@ -130,10 +142,15 @@ class _SearchState extends State<Search> {
                   ),
                 ),
 
-                FloatingActionButton(
+                FloatingActionButton(     // Search Button
                   backgroundColor: buttonColor,
                   onPressed: (){
-                    setState(() {
+                    // Unfocuses text box so keyboard closes
+                    FocusScopeNode currentFocus = FocusScope.of(context);
+                    if (!currentFocus.hasPrimaryFocus) {
+                      currentFocus.unfocus();
+                    }
+                    setState(() {     // Resets searchlist and does new search
                       _searchList = [];
                       searchBooks();
                     });
@@ -145,7 +162,7 @@ class _SearchState extends State<Search> {
               ],
             ),
 
-            /* Search List */
+            /* Display of Search List */
             Expanded(
               child: Container(   // Adds top border
                 decoration: const BoxDecoration(

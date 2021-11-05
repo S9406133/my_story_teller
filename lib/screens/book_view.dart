@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
-import 'package:my_story_teller/data/book.dart';
 import 'package:my_story_teller/data/user.dart';
 import 'package:card_swiper/card_swiper.dart';
 
@@ -18,13 +17,13 @@ class BookView extends StatefulWidget {
 class _BookViewState extends State<BookView> {
   final bgColor = Colors.teal;
 
-  final Book _currentBook = users[currentUserIndex].savedBooks[currentBookIndex];
+  final SavedBook _currentBook = users[currentUserIndex].savedBooks[currentBookIndex];
   int _numPages = 0;
   bool _recAvail = false;
 
   @override
   void initState() {
-    _numPages = _currentBook.pages.length;
+    _numPages = _currentBook.pages!.length;
     // Sets the variable if recordings are available
     if (_currentBook.recordings.isNotEmpty){
       _recAvail = true;
@@ -58,7 +57,7 @@ class _BookViewState extends State<BookView> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20.0),
                   child: Image.asset(
-                      _currentBook.pages[index],
+                      _currentBook.pages![index],
                       fit: BoxFit.fill
                   ),
                 ),

@@ -6,36 +6,30 @@ import 'package:my_story_teller/elements/dialog_box.dart';
 /* Shows a full description of a book - Route: '/bookDescr' */
 
 class BookDescr extends StatefulWidget {
-  BookDescr({Key? key}) : super(key: key);
+  const BookDescr({Key? key}) : super(key: key);
 
   @override
   State<BookDescr> createState() => _BookDescrState();
 }
 
 class _BookDescrState extends State<BookDescr> {
-  //final Book selectedBook = books[searchedBookIndex];
-  bool _exists = false;
-  bool _visible = true;
 
   final bgColor = Colors.blueGrey;
   final buttonColor = Colors.white;
 
+  // Holds the value if book already saved or not
+  bool _exists = false;
+
   @override
   void initState() {
+    // Sets exists variable
     _exists = users[currentUserIndex].bookExists(selectedBook.title);
-    if (_exists == true) {
-      _visible = false;
-    }
     super.initState();
   }
 
+  // Called when Add Book button pressed to update variables
   void setExists() {
     _exists = users[currentUserIndex].bookExists(selectedBook.title);
-    if (_exists == true) {
-      _visible = false;
-    }else{
-      _visible = true;
-    }
   }
 
   @override
@@ -62,17 +56,18 @@ class _BookDescrState extends State<BookDescr> {
         child: Column(
           children: <Widget>[
             const SizedBox(height: 30),
-
             Row(
               children: <Widget>[
-                SizedBox(
+
+                SizedBox(       // Book Image
                   width: 150,
                   height: 150,
                   child: FittedBox(
                     child: Image.asset(selectedBook.image!),
                   ),
                 ),
-                Column(
+
+                Column(         // Title and Author text
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -98,10 +93,9 @@ class _BookDescrState extends State<BookDescr> {
               ],
             ),
 
-            Container(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+            Container(          // Long description text
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
               width: 340,
-              //height: 300,
               child: Text(selectedBook.longDesc!,
                 style: const TextStyle(
                   fontSize: 20,
@@ -109,10 +103,9 @@ class _BookDescrState extends State<BookDescr> {
               ),
             ),
 
-            Container(
+            Container(          // Categories heading and list
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
               width: 340,
-              //height: 300,
               child: Column(
                 children: [
                   const Text('Categories:',
@@ -120,18 +113,16 @@ class _BookDescrState extends State<BookDescr> {
                       fontSize: 20,
                     ),
                   ),
-                  SizedBox(
+
+                  SizedBox(         // Categories List
                     width: 340,
                     height: 100,
                     child: ListView.builder(
                         itemCount: selectedBook.categories!.length,
                         itemBuilder: (context, index){
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: Text(selectedBook.categories![index],
-                              style: const TextStyle(
-                                fontSize: 20,
-                              ),
+                          return Text(selectedBook.categories![index],
+                            style: const TextStyle(
+                              fontSize: 20,
                             ),
                           );
                         }
@@ -141,11 +132,10 @@ class _BookDescrState extends State<BookDescr> {
               ),
             ),
 
-            Stack(
-              //alignment: AlignmentDirectional.bottomCenter,
+            Stack(        // Add book or text displayed
               children: <Widget>[
 
-                Visibility(
+                Visibility(     // Text is displayed if book exists in saved books
                   visible: _exists,
                   child: Container(
                     padding: const EdgeInsets.all(15),
@@ -161,18 +151,17 @@ class _BookDescrState extends State<BookDescr> {
                   ),
                 ),
 
-
-                SizedBox(
+                SizedBox( // Add book button displayed if book doesn't exist in saved books
                   width: 300,
                   height: 50,
                   child: Visibility(
-                    visible: _visible,
+                    visible: !_exists,
                     child: ElevatedButton(
                       onPressed: () {
                         bool _result = false;
                         _result = users[currentUserIndex].saveBook(selectedBook);
                         if (_result == true){
-                          showDialog<String>(
+                          showDialog<String>(     // Success dialog
                             context: context,
                             builder: (BuildContext context) => MyDialog(
                                 title: selectedBook.title +

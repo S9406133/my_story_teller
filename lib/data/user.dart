@@ -11,7 +11,7 @@ class User {
   String password = '';
   List<Profile> profiles = [Profile('', '', false)];
   Profile current = Profile('', '', false);
-  List<Book> savedBooks = [];
+  List<SavedBook> savedBooks = [];
 
   User (this.firstName, this.lastName, this.email, this.password){
     email = email.toLowerCase();
@@ -21,8 +21,6 @@ class User {
     profiles[0].setEmail(email);
     current = profiles[0];
   }
-
- // void addProfile(Profile newProfile) => profiles.add(newProfile);
 
   // Adds new profile to current user
   void addProfile(String firstname, String lastname, bool child) {
@@ -41,7 +39,7 @@ class User {
 
   void setCurrentProfile(int index) => current = profiles[index];
 
-  // checks if a book has
+  // Checks if a book has already been saved
   bool bookExists(String title) {
     bool exists = false;
     for(int i=0; i < savedBooks.length; i++) {
@@ -54,25 +52,26 @@ class User {
   }
 
   // Saves a book to the current user if not already saved
-  bool saveBook(Book book) {
+  bool saveBook(Book b) {
     bool exists = true;
-    
-    exists = bookExists(book.title);
-    
+
+    exists = bookExists(b.title);
+
     if (exists == true) {
       return false;
     }else {
-      savedBooks.add(book);
+      savedBooks.add(SavedBook(
+          b.title, b.author, b.description, b.longDesc, b.image, b.categories!, b.pages));
       return true;
     }
   }
 
   void addRecording(int index, Recording recording) =>
-      books[index].recordings.add(recording);
+      savedBooks[index].recordings.add(recording);
 
 }
 
-/* Defines user profiles */
+/* Defines user profile */
 class Profile {
 
   String firstname = '';
@@ -93,6 +92,26 @@ class Profile {
   void setEmail(String email) => this.email = email;
 }
 
+/* Defines local Book class with a list of recordings */
+class SavedBook extends Book{
+
+  List<Recording> recordings = [];
+
+  SavedBook(String title, author, description, longDesc, image, List<String> categories, pages)
+      : super(title: title, author: author, description: description,
+      longDesc: longDesc, categories: categories, pages: pages, image: image);
+}
+
+/* Defines the Recording class */
+class Recording {
+  String recorder;
+  String location;
+  String date;
+  double length;
+
+  Recording(this.recorder, this.location, this.date, this.length);
+}
+
 // Creates a test user and associated profiles
 List<User> users = [User('Tom', 'King', 'tom@mail.com', '1234')];
 
@@ -108,7 +127,7 @@ void addTestProfiles() {
   users[0].addProfile('Frank', 'King', true);
 }
 
-// Saves books and recordings to test user account
+// Saves all books and test recordings to test user account
 void saveTestBooks(){
   for(int i = 0; i < books.length; i++){
     users[0].saveBook(books[i]);
@@ -164,6 +183,7 @@ bool setCurrentUser(String email, password){
   return true;
 }
 
+// Variable to hold the selected book index from savedBooks
 int currentBookIndex = 0;
 
 void setCurrentBook(int index) => currentBookIndex = index;
