@@ -13,8 +13,7 @@ class ChildHome extends StatefulWidget {
 
 class _ChildHomeState extends State<ChildHome> {
 
-  final bgColor = Colors.teal;
-  final buttonColor = Colors.teal;
+  final themeColor = Colors.teal;
 
   String _newText = '';
   final String _childName = users[currentUserIndex].current.firstname;
@@ -22,7 +21,7 @@ class _ChildHomeState extends State<ChildHome> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      backgroundColor: bgColor[100],
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -52,8 +51,9 @@ class _ChildHomeState extends State<ChildHome> {
             /* Story List */
             Expanded(
               child: Container(   // Adds top and bottom border
-                decoration: const BoxDecoration(
-                  border: Border(
+                decoration: BoxDecoration(
+                  color: themeColor[100],
+                  border: const Border(
                     top: BorderSide(),
                     bottom: BorderSide(),
                   ),
@@ -98,8 +98,10 @@ class _ChildHomeState extends State<ChildHome> {
             ),
 
             /* Exit Button */
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+            Container(
+              margin: const EdgeInsets.all(30),
+              width: double.infinity,
+              height: 45,
               child: ElevatedButton(
                 /* Exit dialog is shown requiring a password */
                 onPressed: () => showDialog<String>(
@@ -133,7 +135,7 @@ class _ChildHomeState extends State<ChildHome> {
                             contentPadding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                             hintText: '1234',
                             filled: true,
-                            fillColor: bgColor[50],
+                            fillColor: themeColor[50],
                           ),
                         ),
                       ),
@@ -177,8 +179,7 @@ class _ChildHomeState extends State<ChildHome> {
                   ),
                 ),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(buttonColor),
-                  padding: MaterialStateProperty.all(const EdgeInsets.fromLTRB(38, 10, 38, 10)),
+                  backgroundColor: MaterialStateProperty.all(themeColor),
                 ),
               ),
             ),

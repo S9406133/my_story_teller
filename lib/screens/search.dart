@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_story_teller/data/book.dart';
-import 'package:my_story_teller/data/user.dart';
 
 /* Search screen - Route '/search' */
 
@@ -12,7 +11,7 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  final bgColor = Colors.blueGrey;
+  final themeColor = Colors.blueGrey;
   final buttonColor = Colors.teal;
 
   // List of books returned by the search method
@@ -43,7 +42,6 @@ class _SearchState extends State<Search> {
           break;
         case 'Category':
           for (int a=0; a < books[i].categories!.length; a++) {
-            print('i:$i  a:$a');
             if (books[i].categories![a].toLowerCase().contains(_newText.toLowerCase())) {
               _searchList.add(books[i]);
               break;
@@ -58,10 +56,10 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor[100],
+      backgroundColor: Colors.white,
       /* App Bar */
       appBar: AppBar(
-        backgroundColor: bgColor[300],
+        backgroundColor: themeColor[300],
         title: const Text('Book Search'),
         titleTextStyle: const TextStyle(
           fontSize: 24,
@@ -98,7 +96,7 @@ class _SearchState extends State<Search> {
                   contentPadding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   hintText: 'Search',
                   filled: true,
-                  fillColor: bgColor[50],
+                  fillColor: themeColor[50],
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -112,12 +110,13 @@ class _SearchState extends State<Search> {
 
                 Container(
                   decoration: BoxDecoration(
-                    color: bgColor[50],
+                    color: themeColor[50],
                     border: Border.all(color: Colors.black54),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   margin: const EdgeInsets.fromLTRB(20, 10, 50, 10),
                   padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+
                   child: DropdownButton<String>(      // Dropdown Button
                     value: _dropdownValue,
                     icon: const Icon(Icons.arrow_drop_down),
@@ -165,8 +164,9 @@ class _SearchState extends State<Search> {
             /* Display of Search List */
             Expanded(
               child: Container(   // Adds top border
-                decoration: const BoxDecoration(
-                  border: Border(
+                decoration: BoxDecoration(
+                  color: themeColor[100],
+                  border: const Border(
                     top: BorderSide(),
                   ),
                 ),

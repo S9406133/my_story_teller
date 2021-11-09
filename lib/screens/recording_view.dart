@@ -32,7 +32,7 @@ class _RecordingViewState extends State<RecordingView> {
   void initState() {
     _controller = SwiperController();
     _numPages = _currentBook.pages!.length;
-    _playIcon = const Icon(Icons.play_arrow);
+    _playIcon = const Icon(Icons.play_arrow_rounded);
     _isPaused = true;
     // Creates a list of all recordings for the current book
     for (int i=0; i < _currentBook.recordings.length; i++){
@@ -50,7 +50,7 @@ class _RecordingViewState extends State<RecordingView> {
     if (_isPaused == false) {
       _isPaused = true;
       _controller.stopAutoplay();
-      _playIcon = const Icon(Icons.play_arrow);
+      _playIcon = const Icon(Icons.play_arrow_rounded);
     }
   }
 
@@ -69,11 +69,11 @@ class _RecordingViewState extends State<RecordingView> {
     if (_isPaused == false) {
       _isPaused = true;
       _controller.stopAutoplay();
-      _playIcon = const Icon(Icons.play_arrow);
+      _playIcon = const Icon(Icons.play_arrow_rounded);
     } else {
       _isPaused = false;
       _controller.startAutoplay();
-      _playIcon = const Icon(Icons.pause);
+      _playIcon = const Icon(Icons.pause_rounded);
     }
   }
 
@@ -181,8 +181,12 @@ class _RecordingViewState extends State<RecordingView> {
           Container(        // Bottom control bar
             height: 65,
             alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: Colors.grey,
+            decoration: BoxDecoration(
+              border: const Border(
+                top: BorderSide(),
+                bottom: BorderSide(),
+              ),
+              color: Colors.white,
             ),
             child: ButtonBar(
               alignment: MainAxisAlignment.center,
@@ -190,7 +194,7 @@ class _RecordingViewState extends State<RecordingView> {
 
                 IconButton(           // Previous button
                   onPressed: () => previous(),
-                  icon: const Icon(Icons.skip_previous),
+                  icon: const Icon(Icons.skip_previous_rounded),
                   iconSize: 35,
                 ),
                 const SizedBox(width: 10),
@@ -212,14 +216,14 @@ class _RecordingViewState extends State<RecordingView> {
                       stopAuto();}
                     );
                   },
-                  icon: const Icon(Icons.stop),
+                  icon: const Icon(Icons.stop_rounded),
                   iconSize: 35,
                 ),
                 const SizedBox(width: 10),
 
                 IconButton(           // Next button
                   onPressed: () => next(),
-                  icon: const Icon(Icons.skip_next),
+                  icon: const Icon(Icons.skip_next_rounded),
                   iconSize: 35,
                 ),
               ],

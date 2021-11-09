@@ -22,16 +22,16 @@ class _BookRecordingState extends State<BookRecording> {
 
   // Variables for Record button
   bool _recordPaused = true;
-  Icon _recordIcon = const Icon(Icons.play_arrow);
+  Icon _recordIcon = const Icon(Icons.play_arrow_rounded);
   // Variables for Review button
   bool _reviewPaused = true;
-  Icon _reviewIcon = const Icon(Icons.play_arrow);
+  Icon _reviewIcon = const Icon(Icons.play_arrow_rounded);
 
   @override
   void initState() {
     _numPages = _currentBook.pages!.length;
-    _recordIcon = const Icon(Icons.play_arrow);
-    _reviewIcon = const Icon(Icons.play_arrow, size: 25);
+    _recordIcon = const Icon(Icons.play_arrow_rounded);
+    _reviewIcon = const Icon(Icons.play_arrow_rounded, size: 25);
     super.initState();
   }
 
@@ -40,11 +40,11 @@ class _BookRecordingState extends State<BookRecording> {
     if (_recordPaused == false) {
       _recordPaused = true;
       //_controller.stopAutoplay();
-      _recordIcon = const Icon(Icons.play_arrow);
+      _recordIcon = const Icon(Icons.play_arrow_rounded);
     } else {
       _recordPaused = false;
       //_controller.startAutoplay();
-      _recordIcon = const Icon(Icons.pause);
+      _recordIcon = const Icon(Icons.pause_rounded);
     }
   }
 
@@ -53,11 +53,11 @@ class _BookRecordingState extends State<BookRecording> {
     if (_reviewPaused == false) {
       _reviewPaused = true;
       //_controller.stopAutoplay();
-      _reviewIcon = const Icon(Icons.play_arrow, size: 25);
+      _reviewIcon = const Icon(Icons.play_arrow_rounded, size: 25);
     } else {
       _reviewPaused = false;
       //_controller.startAutoplay();
-      _reviewIcon = const Icon(Icons.stop, size: 25);
+      _reviewIcon = const Icon(Icons.stop_rounded, size: 25);
     }
   }
 
@@ -132,12 +132,12 @@ class _BookRecordingState extends State<BookRecording> {
 
                 Container(        // Bottom control bar
                   height: 80,
-                  alignment: Alignment.center,
                   decoration: const BoxDecoration(
                     color: Colors.white12,
                   ),
-                  child: ButtonBar(
-                    alignment: MainAxisAlignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
 
                       ElevatedButton.icon(           // Review button
@@ -157,7 +157,7 @@ class _BookRecordingState extends State<BookRecording> {
                           minimumSize: MaterialStateProperty.all(const Size(110,35)),
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 5),
 
                       FloatingActionButton.large(   // Record Button
                         onPressed: () {
@@ -168,7 +168,7 @@ class _BookRecordingState extends State<BookRecording> {
                         backgroundColor: Colors.red,
                         child: _recordIcon,
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 5),
 
                       ElevatedButton.icon(           // Save Button
                         onPressed: () {

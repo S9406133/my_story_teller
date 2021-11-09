@@ -12,7 +12,7 @@ class ParentHome extends StatefulWidget {
 
 class _ParentHomeState extends State<ParentHome> {
 
-  final bgColor = Colors.blueGrey;
+  final themeColor = Colors.blueGrey;
 
   final String userName = users[currentUserIndex].current.firstname +
       ' ' + users[currentUserIndex].current.lastname;
@@ -21,7 +21,7 @@ class _ParentHomeState extends State<ParentHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor[100],
+      backgroundColor: Colors.white,
       /* App Bar */
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -32,7 +32,7 @@ class _ParentHomeState extends State<ParentHome> {
                 context, "/pNav", (Route<dynamic> route) => false);
           },
         ),
-        backgroundColor: bgColor[300],
+        backgroundColor: themeColor[300],
         title: const Text('Home - Parent'),
         titleTextStyle: const TextStyle(
           fontSize: 24,
@@ -129,14 +129,15 @@ class HomeScreenButton extends StatelessWidget {
 
   final String title;
   final String routeName;
-  final buttonColor = Colors.white;
+  final buttonColor = Colors.blueGrey[100];
 
   HomeScreenButton ({Key? key, required this.title, required this.routeName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 300,
+    return Container(
+      margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+      width: double.infinity,
       height: 50,
       child: ElevatedButton(
         onPressed: () {

@@ -5,16 +5,15 @@ import 'package:flutter/material.dart';
 class UpdateSettings extends StatelessWidget {
   const UpdateSettings({Key? key}) : super(key: key);
 
-  final bgColor = Colors.blueGrey;
-  final buttonColor = Colors.teal;
+  final themeColor = Colors.blueGrey;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor[100],
+      backgroundColor: Colors.white,
       /* App Bar */
       appBar: AppBar(
-        backgroundColor: bgColor[300],
+        backgroundColor: themeColor[300],
         title: const Text('Update Settings'),
         titleTextStyle: const TextStyle(
           fontSize: 24,

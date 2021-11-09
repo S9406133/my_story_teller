@@ -22,8 +22,9 @@ class _InputLineState extends State<InputLine> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-      width: 300,
+      margin: const EdgeInsets.fromLTRB(30, 0, 30, 10),
+      width: double.infinity,
+      //height: 50,
       child: TextField(
         onChanged: (text) {
           newText = text;

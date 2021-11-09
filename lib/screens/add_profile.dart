@@ -13,8 +13,7 @@ class AddProfile extends StatefulWidget {
 }
 
 class _AddProfileState extends State<AddProfile> {
-  final bgColor = Colors.blueGrey;
-  final buttonColor = Colors.white;
+  final themeColor = Colors.blueGrey;
 
   final User _currentUser = users[currentUserIndex];
 
@@ -40,10 +39,10 @@ class _AddProfileState extends State<AddProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor[100],
+      backgroundColor: Colors.white,
       /* App Bar */
       appBar: AppBar(
-        backgroundColor: bgColor[300],
+        backgroundColor: themeColor[300],
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -66,7 +65,7 @@ class _AddProfileState extends State<AddProfile> {
       ),
       body:SafeArea(
         child: SingleChildScrollView(
-          reverse: true,
+          //reverse: true,
           child: Center(
             child: Column(
               children: <Widget>[
@@ -117,192 +116,200 @@ class _AddProfileState extends State<AddProfile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
 
-                    ElevatedButton(                     // Add button
-                      onPressed: () {
-                        bool isChild;
-                        String type;
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      width: double.infinity,
+                      height: 45,
+                      child: ElevatedButton(                     // Add button
+                        onPressed: () {
+                          bool isChild;
+                          String type;
 
-                        if (val == 0) {
-                          isChild = true;
-                          type = 'Child';
-                        } else{
-                          isChild = false;
-                          type = 'Adult';
-                        }
+                          if (val == 0) {
+                            isChild = true;
+                            type = 'Child';
+                          } else{
+                            isChild = false;
+                            type = 'Adult';
+                          }
 
-                        bool empty = fieldsEmpty();
+                          bool empty = fieldsEmpty();
 
-                        if (empty == false) { // If fields aren't empty
+                          if (empty == false) { // If fields aren't empty
 
-                          if (isChild == false) {  // If profile is Adult
+                            if (isChild == false) {  // If profile is Adult
 
-                            String newText = '';
-                            showDialog<String>(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) =>
-                                  AlertDialog(
-                                    title: const Text(
-                                      'Adult Profile Selected',
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                      ),
-                                    ),
-                                    content: const Text(
-                                      'Please enter Passcode for this profile',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    actions: <Widget>[
-
-                                      SizedBox( // Passcode text field in dialog
-                                        width: 120,
-                                        child: TextField(
-                                          onChanged: (text) {
-                                            newText = text;
-                                          },
-                                          obscureText: true,
-                                          textAlign: TextAlign.left,
-                                          textAlignVertical: TextAlignVertical
-                                              .top,
-                                          style: const TextStyle(
-                                            fontSize: 20,
-                                          ),
-                                          decoration: InputDecoration(
-                                            contentPadding: const EdgeInsets
-                                                .fromLTRB(10, 0, 10, 0),
-                                            hintText: 'Passcode',
-                                            filled: true,
-                                            fillColor: bgColor[50],
-                                          ),
+                              String newText = '';
+                              showDialog<String>(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) =>
+                                    AlertDialog(
+                                      title: const Text(
+                                        'Adult Profile Selected',
+                                        style: TextStyle(
+                                          fontSize: 24,
                                         ),
                                       ),
+                                      content: const Text(
+                                        'Please enter a Passcode for this profile',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      actions: <Widget>[
 
-                                      TextButton( // Dialog OK Button
-                                        onPressed: () {
-                                          // Checks if data has been entered
-                                          if (newText.isNotEmpty) {
-                                            // Creates a new adult profile and shows success dialog
-                                            _currentUser.addProfile(firstName, lastName, isChild);
-                                            _currentUser.profiles[_currentUser.numProfiles() - 1].setPasscode(newText);
-                                            _currentUser.profiles[_currentUser.numProfiles() - 1].setEmail(email);
-                                            Navigator.pop(context);
-                                            showDialog<String>(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                                  AlertDialog(
-                                                    title: Text('$type profile for $firstName '
-                                                        'successfully added',
-                                                      style: const TextStyle(
-                                                        fontSize: 24,
-                                                      ),
-                                                    ),
-                                                    actions: <Widget>[
-                                                      TextButton( // Closes and reopens the screen to clear it
-                                                        onPressed: () =>
-                                                            Navigator.popAndPushNamed(
-                                                                context, '/addProf'),
-                                                        child: const Text('OK',
-                                                          style: TextStyle(
-                                                            fontSize: 20,
-                                                          ),
+                                        SizedBox( // Passcode text field in dialog
+                                          width: 100,
+                                          child: TextField(
+                                            onChanged: (text) {
+                                              newText = text;
+                                            },
+                                            obscureText: true,
+                                            textAlign: TextAlign.left,
+                                            textAlignVertical: TextAlignVertical
+                                                .top,
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                            ),
+                                            decoration: InputDecoration(
+                                              contentPadding: const EdgeInsets
+                                                  .fromLTRB(10, 0, 10, 0),
+                                              hintText: 'Passcode',
+                                              filled: true,
+                                              fillColor: themeColor[50],
+                                            ),
+                                          ),
+                                        ),
+
+                                        TextButton(    // Dialog OK Button
+                                          onPressed: () {
+                                            // Checks if data has been entered
+                                            if (newText.isNotEmpty) {
+                                              // Creates a new adult profile and shows success dialog
+                                              _currentUser.addProfile(firstName, lastName, isChild);
+                                              _currentUser.profiles[_currentUser.numProfiles() - 1].setPasscode(newText);
+                                              _currentUser.profiles[_currentUser.numProfiles() - 1].setEmail(email);
+                                              Navigator.pop(context);
+                                              showDialog<String>(
+                                                context: context,
+                                                builder: (BuildContext context) =>
+                                                    AlertDialog(
+                                                      title: Text('$type profile for $firstName '
+                                                          'successfully added',
+                                                        style: const TextStyle(
+                                                          fontSize: 24,
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
-                                            );
-                                          } else {
-                                            // Shows new dialog if no passcode entered
-                                            showDialog<String>(
-                                              context: context,
-                                              builder: (
-                                                  BuildContext context) =>
-                                              const MyDialog(
-                                                  title: 'Please enter a Passcode'),
-                                            );
-                                          }
-                                        },
-                                        child: const Text('OK',
-                                          style: TextStyle(
-                                            fontSize: 20,
+                                                      actions: <Widget>[
+                                                        TextButton( // Closes and reopens the screen to clear it
+                                                          onPressed: () =>
+                                                              Navigator.popAndPushNamed(
+                                                                  context, '/addProf'),
+                                                          child: const Text('OK',
+                                                            style: TextStyle(
+                                                              fontSize: 20,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                              );
+                                            } else {
+                                              // Shows new dialog if no passcode entered
+                                              showDialog<String>(
+                                                context: context,
+                                                builder: (
+                                                    BuildContext context) =>
+                                                const MyDialog(
+                                                    title: 'Please enter a Passcode'),
+                                              );
+                                            }
+                                          },
+                                          child: const Text('OK',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                            ),
                                           ),
                                         ),
-                                      ),
 
-                                      TextButton( // Cancel Button
-                                        onPressed: () {
-                                          Navigator.pop(context, 'Cancel');
-                                        },
-                                        child: const Text('Cancel',
-                                          style: TextStyle(
-                                            fontSize: 20,
+                                        TextButton( // Cancel Button
+                                          onPressed: () {
+                                            Navigator.pop(context, 'Cancel');
+                                          },
+                                          child: const Text('Cancel',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                            );
-                          }else{
-                            // Creates new child profile then shows success dialog
-                            _currentUser.addProfile(firstName, lastName, isChild);
-                            showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  AlertDialog(
-                                    title: Text('$type profile for $firstName '
-                                        'successfully added',
-                                      style: const TextStyle(
-                                        fontSize: 24,
-                                      ),
+                                      ],
                                     ),
-                                    actions: <Widget>[
-                                      TextButton( // Closes and reopens the screen to clear it
-                                        onPressed: () =>
-                                            Navigator.popAndPushNamed(
-                                                context, '/addProf'),
-                                        child: const Text('OK',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                          ),
+                              );
+                            }else{
+                              // Creates new child profile then shows success dialog
+                              _currentUser.addProfile(firstName, lastName, isChild);
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    AlertDialog(
+                                      title: Text('$type profile for $firstName '
+                                          'successfully added',
+                                        style: const TextStyle(
+                                          fontSize: 24,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                            );
+                                      actions: <Widget>[
+                                        TextButton( // Closes and reopens the screen to clear it
+                                          onPressed: () =>
+                                              Navigator.popAndPushNamed(
+                                                  context, '/addProf'),
+                                          child: const Text('OK',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                              );
+                            }
                           }
-                        }
-                      },
+                        },
 
-                      child: const Text('ADD PROFILE',
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.black,
+                        child: const Text('ADD PROFILE',
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.black,
+                          ),
                         ),
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(buttonColor),
-                        padding: MaterialStateProperty.all(const EdgeInsets.fromLTRB(50, 10, 50, 10)),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(themeColor[100]),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 100,),
 
-                    ElevatedButton(                     // Remove button
-                      onPressed: () {
-                        showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) => const RemoveDialog(),
-                        );
-                      },
-                      child: const Text('REMOVE PROFILE',
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.black,
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      width: double.infinity,
+                      height: 45,
+                      child: ElevatedButton(                     // Remove button
+                        onPressed: () {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => const RemoveDialog(),
+                          );
+                        },
+                        child: const Text('REMOVE PROFILE',
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.black,
+                          ),
                         ),
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(buttonColor),
-                        padding: MaterialStateProperty.all(const EdgeInsets.fromLTRB(30, 10, 30, 10)),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(themeColor[100]),
+                        ),
                       ),
                     ),
                   ],

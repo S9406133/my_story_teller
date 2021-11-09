@@ -74,6 +74,7 @@ class _ProfileNavState extends State<ProfileNav> {
                       child: ListTile(
                         onTap: (){
                           users[currentUserIndex].setCurrentProfile(index);
+
                           if (users[currentUserIndex].getProfile(index).isChild == true){
                             // Removes previous routes from the stack so the child can't press
                             // the OS back button to get to the parents section.
@@ -98,7 +99,7 @@ class _ProfileNavState extends State<ProfileNav> {
                                 actions: <Widget>[
 
                                   SizedBox(       // Passcode text field in dialog
-                                    width: 120,
+                                    width: 100,
                                     child: TextField(
                                       onChanged: (text) {
                                         newText = text;
@@ -160,6 +161,7 @@ class _ProfileNavState extends State<ProfileNav> {
                         ),
                         leading: Icon(users[currentUserIndex].getProfile(index).profIcon,
                           size: 50,
+                          color: Colors.lightBlueAccent[100],
                         ),
                       ),
                     ),

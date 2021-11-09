@@ -14,8 +14,7 @@ class BookDescr extends StatefulWidget {
 
 class _BookDescrState extends State<BookDescr> {
 
-  final bgColor = Colors.blueGrey;
-  final buttonColor = Colors.white;
+  final themeColor = Colors.blueGrey;
 
   // Holds the value if book already saved or not
   bool _exists = false;
@@ -35,10 +34,10 @@ class _BookDescrState extends State<BookDescr> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor[100],
+      backgroundColor: Colors.white,
       /* App Bar */
       appBar: AppBar(
-        backgroundColor: bgColor[300],
+        backgroundColor: themeColor[300],
         title: const Text('Book Description'),
         titleTextStyle: const TextStyle(
           fontSize: 24,
@@ -60,42 +59,37 @@ class _BookDescrState extends State<BookDescr> {
               children: <Widget>[
 
                 SizedBox(       // Book Image
-                  width: 150,
-                  height: 150,
+                  width: 120,
+                  height: 120,
                   child: FittedBox(
                     child: Image.asset(selectedBook.image!),
                   ),
                 ),
 
-                Column(         // Title and Author text
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 230,
-                      child: Text(selectedBook.title,
+                Expanded(
+                  child: Column(         // Title and Author text
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(selectedBook.title,
                         style: const TextStyle(
-                          fontSize: 28,
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 220,
-                      child: Text(selectedBook.author,
+                      Text(selectedBook.author,
                         style: const TextStyle(
-                          fontSize: 24,
+                          fontSize: 22,
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
 
-            Container(          // Long description text
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
-              width: 340,
+            Padding(          // Long description text
+              padding: const EdgeInsets.fromLTRB(15, 20, 15, 10),
               child: Text(selectedBook.longDesc!,
                 style: const TextStyle(
                   fontSize: 20,
@@ -103,9 +97,8 @@ class _BookDescrState extends State<BookDescr> {
               ),
             ),
 
-            Container(          // Categories heading and list
+            Padding(          // Categories heading and list
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-              width: 340,
               child: Column(
                 children: [
                   const Text('Categories:',
@@ -114,8 +107,8 @@ class _BookDescrState extends State<BookDescr> {
                     ),
                   ),
 
-                  SizedBox(         // Categories List
-                    width: 340,
+                  Container(         // Categories List
+                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                     height: 100,
                     child: ListView.builder(
                         itemCount: selectedBook.categories!.length,
@@ -151,11 +144,12 @@ class _BookDescrState extends State<BookDescr> {
                   ),
                 ),
 
-                SizedBox( // Add book button displayed if book doesn't exist in saved books
-                  width: 300,
-                  height: 50,
-                  child: Visibility(
-                    visible: !_exists,
+                Visibility(    // Add book button displayed if book doesn't exist in saved books
+                  visible: !_exists,
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                    width: double.infinity,
+                    height: 50,
                     child: ElevatedButton(
                       onPressed: () {
                         bool _result = false;
@@ -179,7 +173,7 @@ class _BookDescrState extends State<BookDescr> {
                         ),
                       ),
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(buttonColor),
+                        backgroundColor: MaterialStateProperty.all(themeColor[100]),
                       ),
                     ),
                   ),

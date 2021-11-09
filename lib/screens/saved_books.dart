@@ -50,7 +50,7 @@ class SavedBooks extends StatelessWidget {
 
                       child: Container(
                           padding: const EdgeInsets.all(4.0),
-                          height: 150,
+                          //height: 150,
                           child: Column(    // Overall column
                             children: [
 
@@ -71,30 +71,24 @@ class SavedBooks extends StatelessWidget {
                                       child: Image.asset('${users[currentUserIndex].savedBooks[index].image}'),
                                     ),
 
-                                    Column(       // Description column
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(        // Title text
-                                          width: 270,
-                                          height: 27,
-                                          child: Text(users[currentUserIndex].savedBooks[index].title,
+                                    Expanded(
+                                      child: Column(       // Description column
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(users[currentUserIndex].savedBooks[index].title,
                                             style: const TextStyle(
-                                              fontSize: 24,
+                                              fontSize: 22,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(       // Description text
-                                          width: 270,
-                                          height: 63,
-                                          child: Text(users[currentUserIndex].savedBooks[index].description,
+                                          Text(users[currentUserIndex].savedBooks[index].description,
                                             style: const TextStyle(
                                               fontSize: 18,
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -104,6 +98,7 @@ class SavedBooks extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
+
                                   TextButton.icon(    // Play button
                                     onPressed: (){
                                       setCurrentBook(index);
@@ -115,7 +110,7 @@ class SavedBooks extends StatelessWidget {
                                         color: Colors.black,
                                       ),
                                     ),
-                                    icon: const Icon(Icons.play_arrow,
+                                    icon: const Icon(Icons.play_arrow_rounded,
                                         color: Colors.black
                                     ),
                                     style: ButtonStyle(

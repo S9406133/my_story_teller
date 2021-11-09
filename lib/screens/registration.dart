@@ -148,6 +148,7 @@ class _RegistrationState extends State<Registration> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+
                     ElevatedButton(                     // Sign up button
                       onPressed: () {
                         if(firstName.isEmpty || lastName.isEmpty || // If text fields empty
@@ -185,7 +186,7 @@ class _RegistrationState extends State<Registration> {
                               actions: <Widget>[
                                 TextButton(
                                   onPressed: () =>
-                                      Navigator.pushNamed(context, '/pHome'),
+                                      Navigator.popAndPushNamed(context, '/pHome'),
                                   child: const Text('OK',
                                     style: TextStyle(
                                       fontSize: 20,
