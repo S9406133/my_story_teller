@@ -17,6 +17,20 @@ class _ChildHomeState extends State<ChildHome> {
 
   String _newText = '';
   final String _childName = users[currentUserIndex].current.firstname;
+  final List<SavedBook> _bookList = users[currentUserIndex].savedBooks;
+
+  bool _bookSaved = false;
+
+  @override
+  void initState() {
+    // Sets the value if there are saved books or not
+    if (_bookList.isNotEmpty){
+      _bookSaved = true;
+    } else{
+      _bookSaved = false;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context){
@@ -24,8 +38,7 @@ class _ChildHomeState extends State<ChildHome> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             /* Heading */
             const Padding(
@@ -48,51 +61,70 @@ class _ChildHomeState extends State<ChildHome> {
               ),
             ),
 
-            /* Story List */
-            Expanded(
-              child: Container(   // Adds top and bottom border
-                decoration: BoxDecoration(
-                  color: themeColor[100],
-                  border: const Border(
-                    top: BorderSide(),
-                    bottom: BorderSide(),
+            Visibility(   // Displays text if no books saved
+              visible: !_bookSaved,
+              child: const Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(40),
+                  child: Text('Sorry, no books have been added yet.'
+                      '\n\nPlease ask an adult to add books for you to view.',
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.redAccent,
+                    ),
                   ),
                 ),
-                child: ListView.builder(
-                  itemCount: users[currentUserIndex].savedBooks.length,
-                  itemBuilder: (context, index){
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 5.0,
-                        horizontal: 10.0,
-                      ),
-                      child: Card(
-                        child: ListTile(
-                          onTap: (){
-                            setCurrentBook(index);
-                            Navigator.pushNamed(context, '/book');
-                          },
-                          isThreeLine: true,
-                          title: Text(users[currentUserIndex].savedBooks[index].title,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            /* Story List */
+            Visibility(     // Displays if a book has been saved
+              visible: _bookSaved,
+              child: Expanded(
+                child: Container(   // Adds top and bottom border
+                  decoration: BoxDecoration(
+                    color: themeColor[100],
+                    border: const Border(
+                      top: BorderSide(),
+                      bottom: BorderSide(),
+                    ),
+                  ),
+                  child: ListView.builder(
+                    itemCount: _bookList.length,
+                    itemBuilder: (context, index){
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5.0,
+                          horizontal: 10.0,
+                        ),
+                        child: Card(
+                          child: ListTile(
+                            onTap: (){
+                              setCurrentBook(index);
+                              Navigator.pushNamed(context, '/book');
+                            },
+                            isThreeLine: true,
+                            title: Text(_bookList[index].title,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          subtitle: Text(users[currentUserIndex].savedBooks[index].description,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                            subtitle: Text(_bookList[index].description,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          leading: CircleAvatar(
-                            backgroundImage: AssetImage(
-                                '${users[currentUserIndex].savedBooks[index].image}'),
+                            leading: CircleAvatar(
+                              backgroundImage: AssetImage(
+                                  '${_bookList[index].image}'),
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

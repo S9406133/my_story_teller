@@ -16,14 +16,23 @@ class _SearchState extends State<Search> {
 
   // List of books returned by the search method
   List<Book> _searchList = [];
+  bool _noResult = false;
   // Value entered into the Search text box
   String _newText = '';
   // Value selected in the dropdown list
   String _dropdownValue = 'Title';
 
+  @override
+  void initState() {
+    _noResult = false;
+    super.initState();
+  }
+
   // Search function called when button is pressed
   // Searches by dropdown value and adds results to searchlist
   void searchBooks() {
+    _searchList = [];
+    _noResult = false;
     if (_newText.isEmpty){
       return;
     }
@@ -49,6 +58,12 @@ class _SearchState extends State<Search> {
           }
           break;
       }
+    }
+    // Sets variable if search results found or not
+    if(_searchList.isEmpty){
+      _noResult = true;
+    } else {
+      _noResult = false;
     }
   }
 
@@ -150,7 +165,6 @@ class _SearchState extends State<Search> {
                       currentFocus.unfocus();
                     }
                     setState(() {     // Resets searchlist and does new search
-                      _searchList = [];
                       searchBooks();
                     });
                   },
@@ -161,49 +175,78 @@ class _SearchState extends State<Search> {
               ],
             ),
 
-            /* Display of Search List */
-            Expanded(
-              child: Container(   // Adds top border
-                decoration: BoxDecoration(
-                  color: themeColor[100],
-                  border: const Border(
-                    top: BorderSide(),
+            Visibility(
+              visible: _noResult,
+              child: Expanded(
+                child: Container(   // Adds top border
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: themeColor[100],
+                    border: const Border(
+                      top: BorderSide(),
+                    ),
                   ),
-                ),
-                child: ListView.builder(
-                  itemCount: _searchList.length,
-                  itemBuilder: (context, index){
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 5.0,
-                        horizontal: 10.0,
-                      ),
-                      child: Card(
-                        child: ListTile(
-                          onTap: (){
-                            setSelectedBook(_searchList[index]);
-                            Navigator.pushNamed(context, '/bookDescr');
-                          },
-                          isThreeLine: true,
-                          title: Text(_searchList[index].title,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: Text(_searchList[index].description,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          leading: CircleAvatar(
-                            backgroundImage: AssetImage('${_searchList[index].image}'),
-                          ),
+                  child: const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(40),
+                      child: Text('No Result',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    );
-                  },
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            /* Display of Search List */
+            Visibility(
+              visible: !_noResult,
+              child: Expanded(
+                child: Container(   // Adds top border
+                  decoration: BoxDecoration(
+                    color: themeColor[100],
+                    border: const Border(
+                      top: BorderSide(),
+                    ),
+                  ),
+                  child: ListView.builder(
+                    itemCount: _searchList.length,
+                    itemBuilder: (context, index){
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5.0,
+                          horizontal: 10.0,
+                        ),
+                        child: Card(
+                          child: ListTile(
+                            onTap: (){
+                              setSelectedBook(_searchList[index]);
+                              Navigator.pushNamed(context, '/bookDescr');
+                            },
+                            isThreeLine: true,
+                            title: Text(_searchList[index].title,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(_searchList[index].description,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            leading: CircleAvatar(
+                              backgroundImage: AssetImage('${_searchList[index].image}'),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

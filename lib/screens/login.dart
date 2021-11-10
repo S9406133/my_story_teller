@@ -37,23 +37,15 @@ class _LoginState extends State<Login> {
                     letterSpacing: 2.0,
                   ),
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 20.0),
 
                 /* Image */
                 Container(
                   margin: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-                  padding: const EdgeInsets.all(10),
-                  width: 180,
-                  height: 180,
-                  // decoration: BoxDecoration(
-                  //   borderRadius: BorderRadius.circular(40),
-                  //   border: Border.all(
-                  //     color: bgColor,
-                  //     width: 10,
-                  //   ),
-                  // ),
+                  width: 170,
+                  height: 170,
                   child: FittedBox(
-                    child: Image.asset('assets/ReadingImage.jpg'),
+                    child: Image.asset('assets/Splash.jpg'),
                     fit: BoxFit.fitWidth,
                   ),
                 ),

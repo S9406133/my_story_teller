@@ -161,7 +161,7 @@ class _ProfileNavState extends State<ProfileNav> {
                         ),
                         leading: Icon(users[currentUserIndex].getProfile(index).profIcon,
                           size: 50,
-                          color: Colors.lightBlueAccent[100],
+                          color: Colors.lightBlueAccent,
                         ),
                       ),
                     ),
