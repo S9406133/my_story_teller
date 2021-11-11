@@ -74,13 +74,11 @@ class _SavedBooksState extends State<SavedBooks> {
                     ),
                   ),
 
-                  //HomeScreenButton(title: 'Search Library', routeName: '/search'),
-
                   Container(
                     margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                     width: double.infinity,
                     height: 50,
-                    child: ElevatedButton(
+                    child: ElevatedButton(      // Search screen Button
                       onPressed: () {
                         Navigator.popAndPushNamed(context, '/search');},
                       child: const Text('Search Library',

@@ -22,7 +22,7 @@ class _BookRecordingState extends State<BookRecording> {
 
   // Variables for Record button
   bool _recordPaused = true;
-  Icon _recordIcon = const Icon(Icons.play_arrow_rounded);
+  Icon _recordIcon = const Icon(Icons.mic_rounded);
   // Variables for Review button
   bool _reviewPaused = true;
   Icon _reviewIcon = const Icon(Icons.play_arrow_rounded);
@@ -30,7 +30,7 @@ class _BookRecordingState extends State<BookRecording> {
   @override
   void initState() {
     _numPages = _currentBook.pages!.length;
-    _recordIcon = const Icon(Icons.play_arrow_rounded);
+    _recordIcon = const Icon(Icons.mic_rounded);
     _reviewIcon = const Icon(Icons.play_arrow_rounded, size: 25);
     super.initState();
   }
@@ -39,12 +39,10 @@ class _BookRecordingState extends State<BookRecording> {
   void record() {
     if (_recordPaused == false) {
       _recordPaused = true;
-      //_controller.stopAutoplay();
-      _recordIcon = const Icon(Icons.play_arrow_rounded);
+      _recordIcon = const Icon(Icons.mic_rounded);
     } else {
       _recordPaused = false;
-      //_controller.startAutoplay();
-      _recordIcon = const Icon(Icons.pause_rounded);
+      _recordIcon = const Icon(Icons.mic_off_rounded);
     }
   }
 
@@ -52,11 +50,9 @@ class _BookRecordingState extends State<BookRecording> {
   void review() {
     if (_reviewPaused == false) {
       _reviewPaused = true;
-      //_controller.stopAutoplay();
       _reviewIcon = const Icon(Icons.play_arrow_rounded, size: 25);
     } else {
       _reviewPaused = false;
-      //_controller.startAutoplay();
       _reviewIcon = const Icon(Icons.stop_rounded, size: 25);
     }
   }
