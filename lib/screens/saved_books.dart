@@ -74,7 +74,26 @@ class _SavedBooksState extends State<SavedBooks> {
                     ),
                   ),
 
-                  HomeScreenButton(title: 'Search Library', routeName: '/search'),
+                  //HomeScreenButton(title: 'Search Library', routeName: '/search'),
+
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.popAndPushNamed(context, '/search');},
+                      child: const Text('Search Library',
+                        style: TextStyle(
+                          fontSize: 26,
+                          color: Colors.black,
+                        ),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(themeColor[100]),
+                      ),
+                    ),
+                  ),
 
                 ],
               ),
