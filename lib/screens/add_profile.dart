@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_story_teller/elements/input_line.dart';
 import 'package:my_story_teller/elements/dialog_box.dart';
 import 'package:my_story_teller/data/user.dart';
+import 'package:my_story_teller/elements/logout_button.dart';
 
 /* Add Family screen - Route: '/addProf' */
 
@@ -56,11 +57,8 @@ class _AddProfileState extends State<AddProfile> {
           fontSize: 24,
         ),
         centerTitle: true,
-        actions: <Widget>[IconButton(
-          icon: const Icon(Icons.logout, size: 30),
-          onPressed: () => Navigator.pushNamedAndRemoveUntil(
-              context, "/login", (Route<dynamic> route) => false),
-        ),
+        actions: const <Widget>[
+          LogoutButton(),
         ],
       ),
       body:SafeArea(
@@ -70,6 +68,7 @@ class _AddProfileState extends State<AddProfile> {
             child: Column(
               children: <Widget>[
                 const SizedBox(height: 35.0),
+
                 /* Heading */
                 const Text('Please enter profile details',
                   style: TextStyle(

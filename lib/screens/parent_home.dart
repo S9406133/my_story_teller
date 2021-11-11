@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_story_teller/data/user.dart';
+import 'package:my_story_teller/elements/logout_button.dart';
 
 /* Parent home screen - Route 'pHome' */
 
@@ -38,13 +39,11 @@ class _ParentHomeState extends State<ParentHome> {
           fontSize: 24,
         ),
         centerTitle: true,
-        actions: <Widget>[IconButton(
-          icon: const Icon(Icons.logout, size: 30),
-          onPressed: () => Navigator.pushNamedAndRemoveUntil(
-              context, "/login", (Route<dynamic> route) => false),
-        ),
+        actions: const <Widget>[
+          LogoutButton(),
         ],
       ),
+
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -141,7 +140,7 @@ class HomeScreenButton extends StatelessWidget {
       height: 50,
       child: ElevatedButton(
         onPressed: () {
-        Navigator.pushNamed(context, routeName);},
+          Navigator.pushNamed(context, routeName);},
         child: Text(title,
           style: const TextStyle(
             fontSize: 26,

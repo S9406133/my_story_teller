@@ -101,7 +101,8 @@ class _RecordingViewState extends State<RecordingView> {
                 ),
               ),
             ),
-            Expanded(
+
+            Expanded(     // Recording list in drawer
               child: ListView.builder(
                   itemCount: _recordingList.length,
                   itemBuilder: (context, index){
@@ -181,8 +182,8 @@ class _RecordingViewState extends State<RecordingView> {
           Container(        // Bottom control bar
             height: 65,
             alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: const Border(
+            decoration: const BoxDecoration(
+              border: Border(
                 top: BorderSide(),
                 bottom: BorderSide(),
               ),

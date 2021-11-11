@@ -185,8 +185,8 @@ class _RegistrationState extends State<Registration> {
                               ),
                               actions: <Widget>[
                                 TextButton(
-                                  onPressed: () =>
-                                      Navigator.popAndPushNamed(context, '/pHome'),
+                                  onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                                      context, '/pHome', (Route<dynamic> route) => false),
                                   child: const Text('OK',
                                     style: TextStyle(
                                       fontSize: 20,
@@ -208,6 +208,7 @@ class _RegistrationState extends State<Registration> {
                         padding: MaterialStateProperty.all(const EdgeInsets.fromLTRB(30, 10, 30, 10)),
                       ),
                     ),
+
                     const SizedBox(width: 50,),
 
                     ElevatedButton(                     // Cancel button
