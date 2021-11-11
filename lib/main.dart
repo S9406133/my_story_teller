@@ -19,7 +19,7 @@ void main() {
     // the index of the bottom nav button
     // Add routes as screens created
     routes: {
-      '/': (context) => const SplashScr(),                //Splash Screen TODO needs updating
+      '/': (context) => const SplashScr(),                ///Splash COMPLETED
       '/login': (context) => const Login(),               ///Login COMPLETED
       '/pNav': (context) => const ProfileNav(),           ///Profile Navigation COMPLETED
       '/regis': (context) => const Registration(),        ///User Registration COMPLETED

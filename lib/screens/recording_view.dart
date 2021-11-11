@@ -47,10 +47,11 @@ class _RecordingViewState extends State<RecordingView> {
   void stopAuto() {
     _controller.move(0);
     _controller.stopAutoplay();
+    _playIcon = const Icon(Icons.play_arrow_rounded);
     if (_isPaused == false) {
       _isPaused = true;
-      _controller.stopAutoplay();
-      _playIcon = const Icon(Icons.play_arrow_rounded);
+      //_controller.stopAutoplay();
+
     }
   }
 
@@ -110,6 +111,7 @@ class _RecordingViewState extends State<RecordingView> {
                       color: Colors.white60,
                       child: ListTile(
                         onTap: () {
+                          setState(() => stopAuto());
                           setRecordingIndex(index);
                           Navigator.pop(context);
                         },
@@ -202,9 +204,7 @@ class _RecordingViewState extends State<RecordingView> {
 
                 IconButton(           // Play/Pause button
                   onPressed: () {
-                    setState(() {
-                      playPauseAuto();}
-                    );
+                    setState(() => playPauseAuto());
                   },
                   icon: _playIcon,
                   iconSize: 35,
@@ -213,9 +213,7 @@ class _RecordingViewState extends State<RecordingView> {
 
                 IconButton(           // Stop button
                   onPressed: () {
-                    setState(() {
-                      stopAuto();}
-                    );
+                    setState(() => stopAuto());
                   },
                   icon: const Icon(Icons.stop_rounded),
                   iconSize: 35,

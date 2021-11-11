@@ -89,7 +89,7 @@ class _BookViewState extends State<BookView> {
                       fontWeight: FontWeight.bold
                   ),
                 ),
-                icon: const Icon(Icons.play_arrow),
+                icon: const Icon(Icons.play_arrow_rounded),
                 backgroundColor: Colors.red,
               ),
             ),
