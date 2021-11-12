@@ -18,23 +18,52 @@ class _AddProfileState extends State<AddProfile> {
 
   final User _currentUser = users[currentUserIndex];
 
-  // Variable to save radio button state
-  Object? val = -1;
+  // Variables to save radio button state
+  Object? val = 0;
+  bool _selected = true;
 
   // Variables for text entry
-  String firstName = '', lastName = '', email = '';
+  String firstName = '', lastName = '', email = '', passcode = '';
+
+  // Sets the bool variable for the radio selection
+  void setSelected(){
+    if (val == 0){
+      _selected = true;
+    }else{
+      _selected = false;
+    }
+  }
 
   // Method to check all fields have data entered
   bool fieldsEmpty(){
-    if(firstName.isEmpty || lastName.isEmpty || email.isEmpty){
+    bool empty = true;
+
+    if (_selected == true){
+      if(firstName.isEmpty || lastName.isEmpty){
+        empty = true;
+      } else {
+        empty = false;
+      }
+    } else {
+      if (firstName.isEmpty || lastName.isEmpty || email.isEmpty ||
+          passcode.isEmpty) {
+        empty = true;
+      } else {
+        empty = false;
+      }
+    }
+
+    // Displays error dialog if required fields are empty
+    if (empty == true){
       showDialog<String>(
         context: context,
-        builder: (BuildContext context) => const MyDialog(
+        builder: (BuildContext context) =>
+        const MyDialog(
             title: 'Please enter data in all fields'),
       );
-      return true;
     }
-    return false;
+
+    return empty;
   }
 
   @override
@@ -61,30 +90,46 @@ class _AddProfileState extends State<AddProfile> {
           LogoutButton(),
         ],
       ),
+
       body:SafeArea(
         child: SingleChildScrollView(
-          //reverse: true,
+          reverse: true,
           child: Center(
             child: Column(
               children: <Widget>[
-                const SizedBox(height: 35.0),
 
                 /* Heading */
-                const Text('Please enter profile details',
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 35, 0, 35),
+                  child: Text('Please enter profile details',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 35.0),
 
-                /* Data Lines */
+                /* Data Input Lines */
                 InputLine(label: 'First Name',
-                  onChanged: (text) {firstName = text;},),
+                  onChanged: (text) {firstName = text;},
+                ),
                 InputLine(label: 'Last Name',
-                    onChanged: (text) {lastName = text;}),
-                InputLine(label: 'Email',
-                    onChanged: (text) {email = text;}),
+                  onChanged: (text) {lastName = text;},
+                ),
+
+                Visibility(       // These lines displayed if radio not selected
+                  visible: !_selected,
+                  replacement: const SizedBox(height: 116,),
+                  child: InputLine(label: 'Email',
+                    onChanged: (text) {email = text;},
+                  ),
+                ),
+                Visibility(
+                  visible: !_selected,
+                  child: ObscuredInputLine(label: 'Passcode',
+                    onChanged: (text) {passcode = text;},
+                  ),
+                ),
 
                 const SizedBox(height: 10.0),
 
@@ -96,7 +141,10 @@ class _AddProfileState extends State<AddProfile> {
                       value: 0,
                       groupValue: val,
                       onChanged: (value) {
-                        setState(() => val = value);
+                        setState(() {
+                          val = value;
+                          setSelected();
+                        });
                       },
                       toggleable: true,
                       splashRadius: 30,
@@ -108,6 +156,7 @@ class _AddProfileState extends State<AddProfile> {
                     ),
                   ],
                 ),
+
                 const SizedBox(height: 20),
 
                 /* Bottom Buttons */
@@ -119,7 +168,7 @@ class _AddProfileState extends State<AddProfile> {
                       margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                       width: double.infinity,
                       height: 45,
-                      child: ElevatedButton(                     // Add button
+                      child: ElevatedButton(        // Add button
                         onPressed: () {
                           bool isChild;
                           String type;
@@ -137,106 +186,27 @@ class _AddProfileState extends State<AddProfile> {
                           if (empty == false) { // If fields aren't empty
 
                             if (isChild == false) {  // If profile is Adult
-
-                              String newText = '';
+                              // Creates a new adult profile and shows success dialog
+                              _currentUser.addProfile(firstName, lastName, isChild);
+                              _currentUser.profiles[_currentUser.numProfiles() - 1].setPasscode(passcode);
+                              _currentUser.profiles[_currentUser.numProfiles() - 1].setEmail(email);
+                              Navigator.pop(context);
                               showDialog<String>(
                                 context: context,
-                                barrierDismissible: false,
                                 builder: (BuildContext context) =>
                                     AlertDialog(
-                                      title: const Text(
-                                        'Adult Profile Selected',
-                                        style: TextStyle(
+                                      title: Text('$type profile for $firstName '
+                                          'successfully added',
+                                        style: const TextStyle(
                                           fontSize: 24,
                                         ),
                                       ),
-                                      content: const Text(
-                                        'Please enter a Passcode for this profile',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                        ),
-                                      ),
                                       actions: <Widget>[
-
-                                        SizedBox( // Passcode text field in dialog
-                                          width: 100,
-                                          child: TextField(
-                                            onChanged: (text) {
-                                              newText = text;
-                                            },
-                                            obscureText: true,
-                                            textAlign: TextAlign.left,
-                                            textAlignVertical: TextAlignVertical
-                                                .top,
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                            decoration: InputDecoration(
-                                              contentPadding: const EdgeInsets
-                                                  .fromLTRB(10, 0, 10, 0),
-                                              hintText: 'Passcode',
-                                              filled: true,
-                                              fillColor: themeColor[50],
-                                            ),
-                                          ),
-                                        ),
-
-                                        TextButton(    // Dialog OK Button
-                                          onPressed: () {
-                                            // Checks if data has been entered
-                                            if (newText.isNotEmpty) {
-                                              // Creates a new adult profile and shows success dialog
-                                              _currentUser.addProfile(firstName, lastName, isChild);
-                                              _currentUser.profiles[_currentUser.numProfiles() - 1].setPasscode(newText);
-                                              _currentUser.profiles[_currentUser.numProfiles() - 1].setEmail(email);
-                                              Navigator.pop(context);
-                                              showDialog<String>(
-                                                context: context,
-                                                builder: (BuildContext context) =>
-                                                    AlertDialog(
-                                                      title: Text('$type profile for $firstName '
-                                                          'successfully added',
-                                                        style: const TextStyle(
-                                                          fontSize: 24,
-                                                        ),
-                                                      ),
-                                                      actions: <Widget>[
-                                                        TextButton( // Closes and reopens the screen to clear it
-                                                          onPressed: () =>
-                                                              Navigator.popAndPushNamed(
-                                                                  context, '/addProf'),
-                                                          child: const Text('OK',
-                                                            style: TextStyle(
-                                                              fontSize: 20,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                              );
-                                            } else {
-                                              // Shows new dialog if no passcode entered
-                                              showDialog<String>(
-                                                context: context,
-                                                builder: (
-                                                    BuildContext context) =>
-                                                const MyDialog(
-                                                    title: 'Please enter a Passcode'),
-                                              );
-                                            }
-                                          },
+                                        TextButton( // Closes and reopens the screen to clear it
+                                          onPressed: () =>
+                                              Navigator.popAndPushNamed(
+                                                  context, '/addProf'),
                                           child: const Text('OK',
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                        ),
-
-                                        TextButton( // Cancel Button
-                                          onPressed: () {
-                                            Navigator.pop(context, 'Cancel');
-                                          },
-                                          child: const Text('Cancel',
                                             style: TextStyle(
                                               fontSize: 20,
                                             ),
@@ -287,13 +257,14 @@ class _AddProfileState extends State<AddProfile> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 100,),
+
+                    const SizedBox(height: 50,),
 
                     Container(
                       margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                       width: double.infinity,
                       height: 45,
-                      child: ElevatedButton(                     // Remove button
+                      child: ElevatedButton(         // Remove button
                         onPressed: () {
                           showDialog<String>(
                             context: context,
@@ -322,7 +293,7 @@ class _AddProfileState extends State<AddProfile> {
   }
 }
 
-
+// Dialog shown when removing profiles
 class RemoveDialog extends StatefulWidget {
   const RemoveDialog({Key? key}) : super(key: key);
 
@@ -343,22 +314,23 @@ class _RemoveDialogState extends State<RemoveDialog> {
       actions: <Widget>[
         Column(
           children: [
+
             Container(
               alignment: Alignment.topRight,
               height: 300,
-              width: 280,
+              width: 280,               // List of profiles
               child: ListView.builder(
                 itemCount: users[currentUserIndex].profiles.length,
                 itemBuilder: (context, index){
                   return ListTile(
                     onTap: () {
-                      if (index == 0){
+                      if (index == 0){    // Shows error dialog if main profile selected
                         showDialog<String>(
                           context: context,
                           builder: (BuildContext context) =>
                           const MyDialog(title: 'Cannot remove main user profile.'),
                         );
-                      } else {
+                      } else {      // Shows confirmation dialog for other selections
                         showDialog<String>(
                           context: context,
                           builder: (BuildContext context) =>
@@ -382,6 +354,7 @@ class _RemoveDialogState extends State<RemoveDialog> {
                 },
               ),
             ),
+
             Container(
               alignment: Alignment.bottomRight,
               child: TextButton(
@@ -400,7 +373,7 @@ class _RemoveDialogState extends State<RemoveDialog> {
   }
 }
 
-
+// Confirmation dialog shown when removing profile
 class RemoveConfirm extends StatelessWidget {
   final int profileIndex;
   const RemoveConfirm({Key? key, required this.profileIndex}) : super(key: key);
