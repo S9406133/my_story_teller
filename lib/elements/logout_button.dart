@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Logout Popup button shown on the App bar
 class LogoutButton extends StatelessWidget {
   const LogoutButton({Key? key}) : super(key: key);
 

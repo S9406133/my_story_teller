@@ -50,8 +50,6 @@ class _RecordingViewState extends State<RecordingView> {
     _playIcon = const Icon(Icons.play_arrow_rounded);
     if (_isPaused == false) {
       _isPaused = true;
-      //_controller.stopAutoplay();
-
     }
   }
 
@@ -177,7 +175,7 @@ class _RecordingViewState extends State<RecordingView> {
               controller: _controller,
               autoplayDelay: 1000,
               loop: false,
-              autoplayDisableOnInteraction: true,
+              autoplayDisableOnInteraction: true, // Doesn't work!!!
             ),
           ),
 

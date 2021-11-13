@@ -16,7 +16,7 @@ class _RegistrationState extends State<Registration> {
 
   final bgColor = Colors.blueGrey;
   final buttonColor = Colors.teal;
-  bool isChecked = false;
+  bool _isChecked = false;
   String firstName = '', lastName = '', email = '', password = '';
   String termsCond = 'These are the terms and conditions '
       'for using this app, You must agree to them otherwise '
@@ -67,20 +67,25 @@ class _RegistrationState extends State<Registration> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 20.0),
-                const Text('Please enter your details',
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 20, 0, 45),
+                  child: Text('Please enter your details',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 45.0),
 
                 /* Data Lines */
-                InputLine(label: 'First Name', onChanged: (text) {firstName = text;}),
-                InputLine(label: 'Last Name', onChanged: (text) {lastName = text;}),
-                InputLine(label: 'Email', onChanged: (text) {email = text;}),
-                ObscuredInputLine(label: 'Password', onChanged: (text) {password = text;}),
+                InputLine(label: 'First Name',
+                  onChanged: (text) {firstName = text;},),
+                InputLine(label: 'Last Name',
+                  onChanged: (text) {lastName = text;},),
+                InputLine(label: 'Email',
+                  onChanged: (text) {email = text;},),
+                ObscuredInputLine(label: 'Password',
+                  onChanged: (text) {password = text;},),
                 const SizedBox(height: 16.0),
 
                 /* Terms and Conditions */
@@ -89,10 +94,10 @@ class _RegistrationState extends State<Registration> {
                   children: [
                     Checkbox(
                       checkColor: Colors.white,
-                      value: isChecked,
+                      value: _isChecked,
                       onChanged: (bool? value) {
                         setState(() {
-                          isChecked = value!;
+                          _isChecked = value!;
                         });
                       },
                     ),
@@ -158,7 +163,7 @@ class _RegistrationState extends State<Registration> {
                             builder: (BuildContext context) => const MyDialog(
                                 title: 'Please enter data in all fields'),
                           );
-                        } else if (isChecked == false) {  // If checkbox not checked
+                        } else if (_isChecked == false) {  // If checkbox not checked
                           showDialog<String>(
                             context: context,
                             builder: (BuildContext context) => const MyDialog(

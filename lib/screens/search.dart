@@ -157,7 +157,7 @@ class _SearchState extends State<Search> {
                 FloatingActionButton(     // Search Button
                   backgroundColor: buttonColor,
                   onPressed: (){
-                    // Unfocuses text box so keyboard closes
+                    // Un-focuses text box so keyboard closes
                     FocusScopeNode currentFocus = FocusScope.of(context);
                     if (!currentFocus.hasPrimaryFocus) {
                       currentFocus.unfocus();
@@ -173,7 +173,7 @@ class _SearchState extends State<Search> {
               ],
             ),
 
-            Visibility(
+            Visibility(      // Shows "No Result" text if no search results found
               visible: _noResult,
               child: Expanded(
                 child: Container(   // Adds top border
@@ -201,7 +201,7 @@ class _SearchState extends State<Search> {
 
             /* Display of Search List */
             Visibility(
-              visible: !_noResult,
+              visible: !_noResult,  // Displays if a search result is found
               child: Expanded(
                 child: Container(   // Adds top border
                   decoration: BoxDecoration(
