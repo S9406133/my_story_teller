@@ -187,4 +187,6 @@ int currentBookIndex = 0;
 
 void setCurrentBook(int index) => currentBookIndex = index;
 
+int fileCounter = 0;
+
 

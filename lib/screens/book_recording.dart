@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:my_story_teller/data/book.dart';
 import 'package:my_story_teller/data/player.dart';
@@ -17,7 +19,6 @@ class BookRecording extends StatefulWidget {
 
 class _BookRecordingState extends State<BookRecording> {
   final bgColor = Colors.blueGrey;
-  final buttonColor = Colors.teal;
 
   // Instances of recorder and player
   final recorder = SoundRecorder();
@@ -28,8 +29,10 @@ class _BookRecordingState extends State<BookRecording> {
 
   // Variables for Record button
   bool _isRecording = false;
+  bool _hasRecording = false;
   Icon _recordIcon = const Icon(Icons.mic_off_rounded);
   var _recordColor = Colors.blueGrey;
+  var _buttonColor = Colors.grey;
   var _titleColor = Colors.black;
   String _titleText = '';
 
@@ -55,6 +58,11 @@ class _BookRecordingState extends State<BookRecording> {
     super.dispose();
   }
 
+  void setHasRecording(){
+    _hasRecording = true;
+    _buttonColor = Colors.teal;
+  }
+
   // Record Button
   void record() {
     _isRecording = recorder.isRecording;
@@ -75,12 +83,14 @@ class _BookRecordingState extends State<BookRecording> {
   void replay() {
     _replayStopped = player.isPlaying;
     if (_replayStopped == false) {
-      //_replayPaused = true;
       _replayIcon = const Icon(Icons.play_arrow_rounded, size: 25);
     } else {
-      //_replayPaused = false;
       _replayIcon = const Icon(Icons.stop_rounded, size: 25);
     }
+  }
+
+  Future<File> saveRecording() {
+    return File(tempAudioPath).copy('assets/recording$fileCounter');
   }
 
   @override
@@ -155,7 +165,11 @@ class _BookRecordingState extends State<BookRecording> {
                 Container(        // Bottom control bar
                   height: 80,
                   decoration: const BoxDecoration(
-                    color: Colors.white12,
+                    border: Border(
+                      top: BorderSide(),
+                      bottom: BorderSide(),
+                    ),
+                    color: Colors.white,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -164,12 +178,15 @@ class _BookRecordingState extends State<BookRecording> {
 
                       ElevatedButton.icon(           // Replay button
                         onPressed: () async{
-                          await recorder.stop();
-                          await player.togglePlaying(
-                              whenFinished: () => setState(() => replay()) );
-                          setState(() {
-                            replay();
-                            record();});
+                          if (_hasRecording == true) {
+                            await recorder.stop();
+                            await player.togglePlaying(
+                                whenFinished: () => setState(() => replay()));
+                            setState(() {
+                              replay();
+                              record();
+                            });
+                          }
                         },
                         icon: _replayIcon,
                         label: const Text('Replay',
@@ -178,7 +195,7 @@ class _BookRecordingState extends State<BookRecording> {
                           ),
                         ),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(buttonColor),
+                          backgroundColor: MaterialStateProperty.all(_buttonColor),
                           minimumSize: MaterialStateProperty.all(const Size(110,35)),
                         ),
                       ),
@@ -187,8 +204,13 @@ class _BookRecordingState extends State<BookRecording> {
 
                       FloatingActionButton.large(   // Record Button
                         onPressed: () async {
+                          player.stop();
+                          setHasRecording();
                           await recorder.toggleRecording();
-                          setState(() => record(),);
+                          setState(() {
+                            record();
+                            replay();
+                          });
                         },
                         backgroundColor: _recordColor,
                         child: _recordIcon,
@@ -197,37 +219,48 @@ class _BookRecordingState extends State<BookRecording> {
                       const SizedBox(width: 5),
 
                       ElevatedButton.icon(           // Save Button
-                        onPressed: () {
-                          showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text('The current recording will be saved to your user account.',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                ),
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, 'Cancel'),
-                                  child: const Text('Cancel',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                    ),
+                        onPressed: () async {
+                          if (_hasRecording == true) {
+                            await player.stop();
+                            await recorder.stop();
+                            setState(() {
+                              replay();
+                              record();
+                            });
+
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text('The current recording will be saved to your user account.',
+                                  style: TextStyle(
+                                    fontSize: 24,
                                   ),
                                 ),
-                                TextButton(                 //TODO save recording
-                                  onPressed: () {
-                                    Navigator.pop(context, 'OK');
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context, 'Cancel'),
+                                    child: const Text('Cancel',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton( //TODO save recording
+                                    onPressed: () async{
+                                      //await File('data/user/0/com.example.my_story_teller/cache/current_recording.aac').copy('C:/Users/smck7/StudioProjects/my_story_teller/assets/recording$fileCounter.aac');
+                                      fileCounter++;
+                                      Navigator.pop(context, 'OK');
                                     },
-                                  child: const Text('OK',
-                                    style: TextStyle(
-                                      fontSize: 20,
+                                    child: const Text('OK',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
+                                ],
+                              ),
+                            );
+                          }
                         },
                         icon: const Icon(Icons.save_alt,
                           size: 25,
@@ -238,7 +271,7 @@ class _BookRecordingState extends State<BookRecording> {
                           ),
                         ),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(buttonColor),
+                          backgroundColor: MaterialStateProperty.all(_buttonColor),
                           minimumSize: MaterialStateProperty.all(const Size(110,35)),
                         ),
                       ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_sound_lite/flutter_sound.dart';
 import 'package:flutter_sound_lite/public/flutter_sound_recorder.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -11,6 +13,8 @@ class SoundRecorder {
   bool _isInitialised = false;
 
   bool get isRecording => _audioRecorder!.isRecording;
+
+  String get tempPath => tempAudioPath;
 
   Future init() async{
     _audioRecorder = FlutterSoundRecorder();

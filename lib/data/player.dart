@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
+import 'package:my_story_teller/data/recorder.dart';
 
 // Temp file for audio recording
-const tempAudioPath = 'current_recording.aac';
+//const tempAudioPath = 'current_recording.aac';
 
 /* Defines SoundPlayer class*/
 class SoundPlayer {
