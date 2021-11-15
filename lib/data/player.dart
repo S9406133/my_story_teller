@@ -1,15 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
-import 'package:my_story_teller/data/recorder.dart';
-
-// Temp file for audio recording
-//const tempAudioPath = 'current_recording.aac';
 
 /* Defines SoundPlayer class*/
 class SoundPlayer {
   FlutterSoundPlayer? _audioPlayer;
 
   bool get isPlaying => _audioPlayer!.isPlaying;
+  bool get isPaused => _audioPlayer!.isPaused;
 
   Future init() async {
     _audioPlayer = FlutterSoundPlayer();
@@ -21,9 +18,9 @@ class SoundPlayer {
     _audioPlayer = null;
   }
 
-  Future play(VoidCallback whenFinished) async{
+  Future play(String filePath, VoidCallback whenFinished) async{
     await _audioPlayer!.startPlayer(
-      fromURI: tempAudioPath,
+      fromURI: filePath,
       whenFinished: whenFinished
     );
   }
@@ -32,11 +29,35 @@ class SoundPlayer {
     await _audioPlayer!.stopPlayer();
   }
 
-  Future togglePlaying({required VoidCallback whenFinished}) async{
+  Future pause() async{
+    await _audioPlayer!.pausePlayer();
+  }
+
+  Future resume() async{
+    await _audioPlayer!.resumePlayer();
+  }
+
+  Future skipForward(int skip) async{
+    _audioPlayer!.skipForward(skip);
+  }
+
+  Future skipBack(int skip) async{
+    _audioPlayer!.skipBackward(skip);
+  }
+
+  Future togglePlaying({required String filePath, required VoidCallback whenFinished}) async{
     if(_audioPlayer!.isStopped){
-      await play(whenFinished);
+      await play(filePath, whenFinished);
     } else{
       await stop();
+    }
+  }
+
+  Future togglePause() async{
+    if(_audioPlayer!.isPaused){
+      await resume();
+    } else{
+      await pause();
     }
   }
 

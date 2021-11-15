@@ -177,6 +177,8 @@ class _SavedBooksState extends State<SavedBooks> {
                                           buttonColor[100]),
                                       padding: MaterialStateProperty.all(
                                           const EdgeInsets.fromLTRB(0, 0, 20, 0)),
+                                      minimumSize: MaterialStateProperty.all(
+                                          const Size(100,35)),
                                     ),
                                   ),
 
@@ -201,6 +203,8 @@ class _SavedBooksState extends State<SavedBooks> {
                                           buttonColor[100]),
                                       padding: MaterialStateProperty.all(
                                           const EdgeInsets.all(6)),
+                                      minimumSize: MaterialStateProperty.all(
+                                          const Size(100,35)),
                                     ),
                                   ),
                                 ],

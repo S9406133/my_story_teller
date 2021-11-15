@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:my_story_teller/data/player.dart';
 import 'package:my_story_teller/data/user.dart';
 import 'package:card_swiper/card_swiper.dart';
 
@@ -18,9 +19,15 @@ class _RecordingViewState extends State<RecordingView> {
 
   final SavedBook _currentBook = users[currentUserIndex].savedBooks[currentBookIndex];
 
+  final player = SoundPlayer();
+  bool _audioIsPlaying = false;
+  bool _audioIsPaused = false;
+
+  int _delay = 0;
+
   // A local list of the recordings for the current book
   List<Recording> _recordingList = [];
-  int _recordingIndex = 0;
+  Recording _selectedRecording = Recording('', '', 0);
   int _numPages = 0;
   var _playIcon = const Icon(Icons.play_arrow);
   bool _isPaused = true;
@@ -38,13 +45,28 @@ class _RecordingViewState extends State<RecordingView> {
     for (int i=0; i < _currentBook.recordings.length; i++){
       _recordingList.add(_currentBook.recordings[i]);
     }
+    _selectedRecording = _recordingList[0];
+    _delay = (_selectedRecording.duration/_numPages).round();
+    print('DELAY: $_delay');
+    player.init();
     super.initState();
   }
 
-  void setRecordingIndex(int index) => _recordingIndex = index;
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
+
+  void setSelectedRecording(int index) {
+    _selectedRecording = _recordingList[index];
+    _delay = (_selectedRecording.duration/_numPages).round();
+  }
 
   // Stop Button
   void stopAuto() {
+    _audioIsPlaying = player.isPlaying;
+    _audioIsPaused = player.isPaused;
     _controller.move(0);
     _controller.stopAutoplay();
     _playIcon = const Icon(Icons.play_arrow_rounded);
@@ -65,6 +87,8 @@ class _RecordingViewState extends State<RecordingView> {
 
   // Play/Pause Button
   void playPauseAuto() {
+    _audioIsPlaying = player.isPlaying;
+    _audioIsPaused = player.isPaused;
     if (_isPaused == false) {
       _isPaused = true;
       _controller.stopAutoplay();
@@ -108,9 +132,14 @@ class _RecordingViewState extends State<RecordingView> {
                     return Card(
                       color: Colors.white60,
                       child: ListTile(
-                        onTap: () {
-                          setState(() => stopAuto());
-                          setRecordingIndex(index);
+                        onTap: () async{
+                          if (_audioIsPlaying == true
+                              || _audioIsPaused == true){
+                            await player.stop();
+                          }
+                          setState(() {stopAuto();
+                          setSelectedRecording(index);}
+                          );
                           Navigator.pop(context);
                         },
                         title: Text(_recordingList[index].recorder + ' '
@@ -173,7 +202,7 @@ class _RecordingViewState extends State<RecordingView> {
                 builder: SwiperPagination.fraction,
               ),
               controller: _controller,
-              autoplayDelay: 1000,
+              autoplayDelay: _delay,
               loop: false,
               autoplayDisableOnInteraction: true, // Doesn't work!!!
             ),
@@ -194,14 +223,26 @@ class _RecordingViewState extends State<RecordingView> {
               children: <Widget>[
 
                 IconButton(           // Previous button
-                  onPressed: () => previous(),
+                  onPressed: () async{
+                    if (_audioIsPaused == true || _audioIsPlaying == true) {
+                      await player.skipBack(_delay);
+                    }
+                    previous();
+                  },
                   icon: const Icon(Icons.skip_previous_rounded),
                   iconSize: 35,
                 ),
                 const SizedBox(width: 10),
 
                 IconButton(           // Play/Pause button
-                  onPressed: () {
+                  onPressed: () async{
+                    if (_audioIsPaused == true || _audioIsPlaying == true) {
+                      await player.togglePause();
+                    }else if(_audioIsPlaying == false){
+                      await player.play(
+                          _selectedRecording.fileLocation,
+                              () {}); //=> setState(() => playPauseAuto()));
+                    }
                     setState(() => playPauseAuto());
                   },
                   icon: _playIcon,
@@ -210,7 +251,10 @@ class _RecordingViewState extends State<RecordingView> {
                 const SizedBox(width: 10),
 
                 IconButton(           // Stop button
-                  onPressed: () {
+                  onPressed: () async{
+                    if (_audioIsPlaying == true){
+                      await player.stop();
+                    }
                     setState(() => stopAuto());
                   },
                   icon: const Icon(Icons.stop_rounded),
@@ -219,7 +263,12 @@ class _RecordingViewState extends State<RecordingView> {
                 const SizedBox(width: 10),
 
                 IconButton(           // Next button
-                  onPressed: () => next(),
+                  onPressed: () async{
+                    if (_audioIsPaused == true || _audioIsPlaying == true) {
+                      await player.skipBack(_delay);
+                    }
+                    next();
+                  },
                   icon: const Icon(Icons.skip_next_rounded),
                   iconSize: 35,
                 ),
@@ -231,5 +280,6 @@ class _RecordingViewState extends State<RecordingView> {
     );
   }
 }
+
 
 

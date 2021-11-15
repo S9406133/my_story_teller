@@ -50,31 +50,43 @@ class _BookViewState extends State<BookView> {
       body:
       Stack(
         children: <Widget>[
-                                // Swiper
-          Swiper(
-            itemBuilder: (BuildContext context, int index){
-              return Card(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Image.asset(
-                      _currentBook.pages![index],
-                      fit: BoxFit.fill
+          // Swiper
+          Column(
+            children: [
+              Expanded(
+                child: Swiper(
+                  itemBuilder: (BuildContext context, int index){
+                    return Card(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Image.asset(
+                            _currentBook.pages![index],
+                            fit: BoxFit.fill
+                        ),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      elevation: 20,
+                      margin: const EdgeInsets.all(20),
+                    );
+                  },
+                  itemCount: _numPages,
+                  pagination: const SwiperPagination(
+                    builder: SwiperPagination.fraction,
+                    alignment: Alignment(0.0, -1.0),  // Doesn't Work???
                   ),
+                  control: const SwiperControl(),
+                  loop: false,
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                elevation: 20,
-                margin: const EdgeInsets.all(20),
-              );
-            },
-            itemCount: _numPages,
-            pagination: const SwiperPagination(
-              builder: SwiperPagination.fraction,
-              alignment: Alignment(0.0, -1.0),  // Doesn't Work???
-            ),
-            control: const SwiperControl(),
-            loop: false,
+              ),
+
+              Container(
+                height: 65,
+                alignment: Alignment.center,
+                color: Colors.white,
+              ),
+            ],
           ),
 
           Positioned(         // View recordings button

@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:my_story_teller/data/book.dart';
 import 'package:my_story_teller/data/player.dart';
 import 'package:my_story_teller/data/recorder.dart';
+import 'package:my_story_teller/data/save_recording.dart';
 import 'package:my_story_teller/data/user.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:my_story_teller/elements/logout_button.dart';
@@ -32,13 +31,14 @@ class _BookRecordingState extends State<BookRecording> {
   bool _hasRecording = false;
   Icon _recordIcon = const Icon(Icons.mic_off_rounded);
   var _recordColor = Colors.blueGrey;
-  var _buttonColor = Colors.grey;
-  var _titleColor = Colors.black;
-  String _titleText = '';
 
   // Variables for Replay button
   bool _replayStopped = true;
   Icon _replayIcon = const Icon(Icons.play_arrow_rounded);
+
+  var _buttonColor = Colors.grey;
+  var _titleColor = Colors.black;
+  String _titleText = '';
 
   @override
   void initState() {
@@ -58,12 +58,13 @@ class _BookRecordingState extends State<BookRecording> {
     super.dispose();
   }
 
+  // Used to activate replay and save buttons
   void setHasRecording(){
     _hasRecording = true;
     _buttonColor = Colors.teal;
   }
 
-  // Record Button
+  // Toggles state of record Button
   void record() {
     _isRecording = recorder.isRecording;
     if (_isRecording == true) {
@@ -79,7 +80,7 @@ class _BookRecordingState extends State<BookRecording> {
     }
   }
 
-  // Review button
+  // Toggles state of replay button
   void replay() {
     _replayStopped = player.isPlaying;
     if (_replayStopped == false) {
@@ -89,9 +90,6 @@ class _BookRecordingState extends State<BookRecording> {
     }
   }
 
-  Future<File> saveRecording() {
-    return File(tempAudioPath).copy('assets/recording$fileCounter');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,8 +177,9 @@ class _BookRecordingState extends State<BookRecording> {
                       ElevatedButton.icon(           // Replay button
                         onPressed: () async{
                           if (_hasRecording == true) {
-                            await recorder.stop();
+                            if (recorder.isRecording) await recorder.stop();
                             await player.togglePlaying(
+                                filePath: tempAudioPath,
                                 whenFinished: () => setState(() => replay()));
                             setState(() {
                               replay();
@@ -204,8 +203,9 @@ class _BookRecordingState extends State<BookRecording> {
 
                       FloatingActionButton.large(   // Record Button
                         onPressed: () async {
-                          player.stop();
+                          if (player.isPlaying) await player.stop();
                           setHasRecording();
+                          print('***************** B  DURATION: '+duration.toString());
                           await recorder.toggleRecording();
                           setState(() {
                             record();
@@ -221,8 +221,8 @@ class _BookRecordingState extends State<BookRecording> {
                       ElevatedButton.icon(           // Save Button
                         onPressed: () async {
                           if (_hasRecording == true) {
-                            await player.stop();
-                            await recorder.stop();
+                            if (player.isPlaying) await player.stop();
+                            if (recorder.isRecording) await recorder.stop();
                             setState(() {
                               replay();
                               record();
@@ -245,10 +245,9 @@ class _BookRecordingState extends State<BookRecording> {
                                       ),
                                     ),
                                   ),
-                                  TextButton( //TODO save recording
+                                  TextButton(           // Save recording
                                     onPressed: () async{
-                                      //await File('data/user/0/com.example.my_story_teller/cache/current_recording.aac').copy('C:/Users/smck7/StudioProjects/my_story_teller/assets/recording$fileCounter.aac');
-                                      fileCounter++;
+                                      saveRecording();
                                       Navigator.pop(context, 'OK');
                                     },
                                     child: const Text('OK',

@@ -18,7 +18,7 @@ class _SplashScrState extends State<SplashScr> {
     addTestProfiles();
     setBookData();
     saveTestBooks();
-    addTestRecordings();
+    //addTestRecordings();
     delay();
     super.initState();
   }

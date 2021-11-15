@@ -65,8 +65,8 @@ class User {
     }
   }
 
-  void addRecording(int index, Recording recording) =>
-      savedBooks[index].recordings.add(recording);
+  void addRecording(int bookIndex, Recording recording) =>
+      savedBooks[bookIndex].recordings.add(recording);
 
 }
 
@@ -104,11 +104,15 @@ class SavedBook extends Book{
 /* Defines the Recording class */
 class Recording {
   String recorder;
-  String location;
-  String date;
-  double length;
+  String fileLocation;
+  int duration;
+  String date = ''; // Would not need to have this as a passed field except to add in test data
 
-  Recording(this.recorder, this.location, this.date, this.length);
+  Recording(this.recorder, this.fileLocation, this.duration){
+    // Variable for current date used in Recordings
+    DateTime now = DateTime.now();
+    date = now.day.toString() + '-' + now.month.toString() + '-' + now.year.toString();
+  }
 }
 
 // Creates a test user and associated profiles
@@ -133,23 +137,23 @@ void saveTestBooks(){
   }
 }
 
-void addTestRecordings(){
-  users[0].addRecording(0, Recording('Tom 0 1', '', '01/10/2021', 100000));
-  users[0].addRecording(0, Recording('Lucy 0 2', '', '13/10/2021', 150000));
-  users[0].addRecording(2, Recording('Tom 2 1', '', '15/09/2021', 110000));
-  users[0].addRecording(2, Recording('Lucy 2 2', '', '20/08/2021', 160000));
-  users[0].addRecording(2, Recording('Tom 2 3', '', '16/04/2021', 200000));
-  users[0].addRecording(2, Recording('Tom 2 4', '', '01/10/2021', 100000));
-  users[0].addRecording(3, Recording('Lucy 3 1', '', '13/10/2021', 150000));
-  users[0].addRecording(3, Recording('Tom 3 2', '', '15/09/2021', 110000));
-  users[0].addRecording(3, Recording('Lucy 3 3', '', '20/08/2021', 160000));
-  users[0].addRecording(3, Recording('Tom 3 4', '', '16/04/2021', 200000));
-  users[0].addRecording(4, Recording('Tom 4 1', '', '15/09/2021', 110000));
-  users[0].addRecording(4, Recording('Lucy 4 2', '', '20/08/2021', 160000));
-  users[0].addRecording(4, Recording('Tom 4 3', '', '16/04/2021', 200000));
-  users[0].addRecording(4, Recording('Tom 4 4', '', '01/10/2021', 100000));
-  users[0].addRecording(4, Recording('Lucy 4 5', '', '13/10/2021', 150000));
-}
+// void addTestRecordings(){
+//   users[0].addRecording(0, Recording('Tom 0 1', '', '01/10/2021', 100000));
+//   users[0].addRecording(0, Recording('Lucy 0 2', '', '13/10/2021', 150000));
+//   users[0].addRecording(2, Recording('Tom 2 1', '', '15/09/2021', 110000));
+//   users[0].addRecording(2, Recording('Lucy 2 2', '', '20/08/2021', 160000));
+//   users[0].addRecording(2, Recording('Tom 2 3', '', '16/04/2021', 200000));
+//   users[0].addRecording(2, Recording('Tom 2 4', '', '01/10/2021', 100000));
+//   users[0].addRecording(3, Recording('Lucy 3 1', '', '13/10/2021', 150000));
+//   users[0].addRecording(3, Recording('Tom 3 2', '', '15/09/2021', 110000));
+//   users[0].addRecording(3, Recording('Lucy 3 3', '', '20/08/2021', 160000));
+//   users[0].addRecording(3, Recording('Tom 3 4', '', '16/04/2021', 200000));
+//   users[0].addRecording(4, Recording('Tom 4 1', '', '15/09/2021', 110000));
+//   users[0].addRecording(4, Recording('Lucy 4 2', '', '20/08/2021', 160000));
+//   users[0].addRecording(4, Recording('Tom 4 3', '', '16/04/2021', 200000));
+//   users[0].addRecording(4, Recording('Tom 4 4', '', '01/10/2021', 100000));
+//   users[0].addRecording(4, Recording('Lucy 4 5', '', '13/10/2021', 150000));
+// }
 
 // List index of logged-in user
 int currentUserIndex = 0;
@@ -187,6 +191,7 @@ int currentBookIndex = 0;
 
 void setCurrentBook(int index) => currentBookIndex = index;
 
-int fileCounter = 0;
+
+
 
 
