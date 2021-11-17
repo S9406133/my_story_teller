@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:my_story_teller/data/player.dart';
 import 'package:my_story_teller/data/user.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:just_audio/just_audio.dart';
 
 /* Book view screen - Route '/recView' */
 
@@ -45,8 +46,9 @@ class _RecordingViewState extends State<RecordingView> {
     for (int i=0; i < _currentBook.recordings.length; i++){
       _recordingList.add(_currentBook.recordings[i]);
     }
-    _selectedRecording = _recordingList[0];
-    _delay = (_selectedRecording.duration/_numPages).round();
+    //_selectedRecording = _recordingList[0];
+    setSelectedRecording(0);
+    //_delay = (_selectedRecording.duration/_numPages).round();
     print('DELAY: $_delay');
     player.init();
     super.initState();
@@ -58,10 +60,20 @@ class _RecordingViewState extends State<RecordingView> {
     super.dispose();
   }
 
-  void setSelectedRecording(int index) {
+  void setSelectedRecording(int index) async{
     _selectedRecording = _recordingList[index];
-    _delay = (_selectedRecording.duration/_numPages).round();
+    int duration = 0;
+    //await getDuration().then((value) => duration = value!.inMilliseconds);
+    _delay = (100000/_numPages).round();
+    print('DELAY: $_delay');
   }
+
+  // Future<Duration?> getDuration() async{
+  //   final player = AudioPlayer();
+  //   Duration? duration = const Duration(milliseconds: 100000);
+  //   duration = await player.setUrl(_selectedRecording.fileLocation);
+  //   return duration;
+  // }
 
   // Stop Button
   void stopAuto() {
@@ -137,8 +149,9 @@ class _RecordingViewState extends State<RecordingView> {
                               || _audioIsPaused == true){
                             await player.stop();
                           }
-                          setState(() {stopAuto();
-                          setSelectedRecording(index);}
+                          setState(() {
+                            stopAuto();
+                            setSelectedRecording(index);}
                           );
                           Navigator.pop(context);
                         },
@@ -181,6 +194,11 @@ class _RecordingViewState extends State<RecordingView> {
                 // Stops play when it gets to the last page
                 if (index == _numPages - 1) {
                   _controller.stopAutoplay();
+                  // Stops for number of seconds before returning to the start
+                  Future.delayed(
+                      const Duration(seconds: 8),
+                        () => setState(() => stopAuto()),
+                  );
                 }
                 return Card(
                   child: ClipRRect(
@@ -237,11 +255,15 @@ class _RecordingViewState extends State<RecordingView> {
                 IconButton(           // Play/Pause button
                   onPressed: () async{
                     if (_audioIsPaused == true || _audioIsPlaying == true) {
+                      print('TogglePause');
                       await player.togglePause();
                     }else if(_audioIsPlaying == false){
+                      print('Play');
                       await player.play(
                           _selectedRecording.fileLocation,
-                              () {}); //=> setState(() => playPauseAuto()));
+                              () => setState(() {
+                                player.stop();
+                                _audioIsPlaying = player.isPlaying;}));
                     }
                     setState(() => playPauseAuto());
                   },

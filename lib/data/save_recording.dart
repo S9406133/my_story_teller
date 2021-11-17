@@ -4,7 +4,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:my_story_teller/data/recorder.dart';
 import 'package:my_story_teller/data/user.dart';
 
-void saveRecording() async {
+int duration = 0;
+
+Future<bool> saveRecording() async {
   // Gets path of temporary cache files (where initial recording is kept)
   final Directory tempDirectory = await getTemporaryDirectory();
   String tempDirPath = tempDirectory.path;
@@ -21,10 +23,11 @@ void saveRecording() async {
 
   if (exists == true) {
     String newPath = '$appDocPath/recording$fileCounter.aac';
+    // Copies temporary file to AppDocs dir with random file name
     await File(
         '$tempDirPath/$tempAudioPath')
-        .copy(
-        newPath);
+        .copy(newPath);
+
 
     addFileToRecordings(
         File(newPath),
@@ -35,9 +38,9 @@ void saveRecording() async {
     print('Temporary Recording file not found');
   }
 
-  print(appDocDir.listSync());
-  print(tempDirectory.listSync());
+  print(appDocDir.listSync()); print(tempDirectory.listSync());
 
+  return exists;
 }
 
 void addFileToRecordings(File file, String location){
@@ -49,6 +52,7 @@ void addFileToRecordings(File file, String location){
   user.addRecording(
       currentBookIndex,
       Recording(user.current.firstname, location, durationMS));
+
 }
 
 

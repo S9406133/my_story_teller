@@ -45,7 +45,8 @@ class SoundPlayer {
     _audioPlayer!.skipBackward(skip);
   }
 
-  Future togglePlaying({required String filePath, required VoidCallback whenFinished}) async{
+  Future togglePlaying(
+      {required String filePath, required VoidCallback whenFinished}) async{
     if(_audioPlayer!.isStopped){
       await play(filePath, whenFinished);
     } else{

@@ -15,9 +15,9 @@ class _ParentHomeState extends State<ParentHome> {
 
   final themeColor = Colors.blueGrey;
 
-  final String userName = users[currentUserIndex].current.firstname +
+  final String _userName = users[currentUserIndex].current.firstname +
       ' ' + users[currentUserIndex].current.lastname;
-  final String userEmail = users[currentUserIndex].current.email;
+  final String _userEmail = users[currentUserIndex].current.email;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _ParentHomeState extends State<ParentHome> {
           },
         ),
         backgroundColor: themeColor[300],
-        title: const Text('Home - Parent'),
+        title: const Text('Home'),
         titleTextStyle: const TextStyle(
           fontSize: 24,
         ),
@@ -70,13 +70,13 @@ class _ParentHomeState extends State<ParentHome> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(userName,
+                        Text(_userName,
                           style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(userEmail,
+                        Text(_userEmail,
                           style: const TextStyle(
                             fontSize: 20,
                             fontStyle: FontStyle.italic,

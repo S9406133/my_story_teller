@@ -5,6 +5,7 @@ import 'package:my_story_teller/data/recorder.dart';
 import 'package:my_story_teller/data/save_recording.dart';
 import 'package:my_story_teller/data/user.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:my_story_teller/elements/dialog_box.dart';
 import 'package:my_story_teller/elements/logout_button.dart';
 
 /* Allows user to make recording - Route: '/bookRec' */
@@ -205,7 +206,6 @@ class _BookRecordingState extends State<BookRecording> {
                         onPressed: () async {
                           if (player.isPlaying) await player.stop();
                           setHasRecording();
-                          print('***************** B  DURATION: '+duration.toString());
                           await recorder.toggleRecording();
                           setState(() {
                             record();
@@ -247,8 +247,16 @@ class _BookRecordingState extends State<BookRecording> {
                                   ),
                                   TextButton(           // Save recording
                                     onPressed: () async{
-                                      saveRecording();
+                                      String text = 'Error saving recording. Try again';
+                                      bool success = false;
+                                      await saveRecording().then((value) => success = value);
                                       Navigator.pop(context, 'OK');
+                                      if (success == true) text = 'Recording saved';
+
+                                      showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) => MyDialog(
+                                              title: text));
                                     },
                                     child: const Text('OK',
                                       style: TextStyle(
