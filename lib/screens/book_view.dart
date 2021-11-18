@@ -60,8 +60,8 @@ class _BookViewState extends State<BookView> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: Image.asset(
-                            _currentBook.pages![index],
-                            fit: BoxFit.fill
+                          _currentBook.pages![index],
+                          fit: BoxFit.fill,
                         ),
                       ),
                       shape: RoundedRectangleBorder(

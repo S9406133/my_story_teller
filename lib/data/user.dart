@@ -9,7 +9,7 @@ class User {
   String email = '';
   String password = '';
   List<Profile> profiles = [Profile('', '', false)];
-  Profile current = Profile('', '', false);
+  Profile currProfile = Profile('', '', false);
   List<SavedBook> savedBooks = [];
 
   User (this.firstName, this.lastName, this.email, this.password){
@@ -18,7 +18,7 @@ class User {
     profiles[0] = Profile(firstName, lastName, false);
     profiles[0].setPasscode(password);
     profiles[0].setEmail(email);
-    current = profiles[0];
+    currProfile = profiles[0];
   }
 
   // Adds new profile to current user
@@ -36,7 +36,7 @@ class User {
     return profiles.length;
   }
 
-  void setCurrentProfile(int index) => current = profiles[index];
+  void setCurrentProfile(int index) => currProfile = profiles[index];
 
   // Checks if a book has already been saved
   bool bookExists(String title) {
@@ -106,7 +106,7 @@ class Recording {
   String recorder;
   String fileLocation;
   int duration;
-  String date = ''; // Would not need to have this as a passed field except to add in test data
+  String date = '';
 
   Recording(this.recorder, this.fileLocation, this.duration){
     // Variable for current date used in Recordings

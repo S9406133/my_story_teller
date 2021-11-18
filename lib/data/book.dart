@@ -25,7 +25,7 @@ class Book {
 List<Book> books = [];
 
 void setBookData() {
-  // Load Ginger The Giraffe
+  // Load Ginger The Giraffe pages
   List<String> gg = [];
   int gingerPages = 15;
   for (int a = 1; a <= gingerPages; a++) {
@@ -33,7 +33,7 @@ void setBookData() {
     gg.add(image);
   }
 
-  // Load Captain Fantastic
+  // Load Captain Fantastic pages
   List<String> cf = [];
   int captainPages = 14;
   for (int a = 1; a <= captainPages; a++) {
@@ -41,7 +41,7 @@ void setBookData() {
     cf.add(image);
   }
 
-  // Load Sunny Meadows
+  // Load Sunny Meadows pages
   List<String> sm = [];
   int sunnyMPages = 13;
   for (int a = 1; a <= sunnyMPages; a++) {
@@ -49,7 +49,7 @@ void setBookData() {
     sm.add(image);
   }
 
-  // Load Hide and Seek
+  // Load Hide and Seek pages
   List<String> hs = [];
   int hideSeekPages = 26;
   for (int a = 1; a <= hideSeekPages; a++) {
@@ -57,7 +57,7 @@ void setBookData() {
     hs.add(image);
   }
 
-  // Load Missing Smile
+  // Load Missing Smile pages
   List<String> ms = [];
   int missingSmilePages = 21;
   for (int a = 1; a <= missingSmilePages; a++) {

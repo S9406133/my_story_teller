@@ -4,9 +4,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:my_story_teller/data/recorder.dart';
 import 'package:my_story_teller/data/user.dart';
 
-int duration = 0;
 
-Future<bool> saveRecording() async {
+Future<bool> saveRecording(int duration) async {
   // Gets path of temporary cache files (where initial recording is kept)
   final Directory tempDirectory = await getTemporaryDirectory();
   String tempDirPath = tempDirectory.path;
@@ -19,7 +18,6 @@ Future<bool> saveRecording() async {
   int fileCounter = random.nextInt(1000); // from 0 up to 999 included
 
   bool exists = File('$tempDirPath/$tempAudioPath').existsSync();
-  print('File exists: $exists');
 
   if (exists == true) {
     String newPath = '$appDocPath/recording$fileCounter.aac';
@@ -28,10 +26,7 @@ Future<bool> saveRecording() async {
         '$tempDirPath/$tempAudioPath')
         .copy(newPath);
 
-
-    addFileToRecordings(
-        File(newPath),
-        newPath);
+    addFileToRecordings(File(newPath), newPath, duration);
 
     fileCounter++;
   }else {
@@ -43,15 +38,13 @@ Future<bool> saveRecording() async {
   return exists;
 }
 
-void addFileToRecordings(File file, String location){
+void addFileToRecordings(File file, String location, int duration){
   User user = users[currentUserIndex];
-  int durationMS = duration;
-
-   print('Duration: $durationMS');
+   print('Duration: $duration');
 
   user.addRecording(
       currentBookIndex,
-      Recording(user.current.firstname, location, durationMS));
+      Recording(user.currProfile.firstname, location, duration));
 
 }
 

@@ -15,9 +15,9 @@ class _ParentHomeState extends State<ParentHome> {
 
   final themeColor = Colors.blueGrey;
 
-  final String _userName = users[currentUserIndex].current.firstname +
-      ' ' + users[currentUserIndex].current.lastname;
-  final String _userEmail = users[currentUserIndex].current.email;
+  final String _userName = users[currentUserIndex].currProfile.firstname +
+      ' ' + users[currentUserIndex].currProfile.lastname;
+  final String _userEmail = users[currentUserIndex].currProfile.email;
 
   @override
   Widget build(BuildContext context) {

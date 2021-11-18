@@ -16,7 +16,7 @@ class _ChildHomeState extends State<ChildHome> {
   final themeColor = Colors.teal;
 
   String _newText = '';
-  final String _childName = users[currentUserIndex].current.firstname;
+  final String _childName = users[currentUserIndex].currProfile.firstname;
   final List<SavedBook> _bookList = users[currentUserIndex].savedBooks;
 
   bool _bookSaved = false;
@@ -89,6 +89,7 @@ class _ChildHomeState extends State<ChildHome> {
                       bottom: BorderSide(),
                     ),
                   ),
+
                   child: ListView.builder(
                     itemCount: _bookList.length,
                     itemBuilder: (context, index){
@@ -181,7 +182,7 @@ class _ChildHomeState extends State<ChildHome> {
                             // Shows new dialog if password incorrect
                             showDialog<String>(
                               context: context,
-                              builder: (BuildContext context) => const MyDialog(
+                              builder: (BuildContext context) => const OKDialog(
                                   title: 'Incorrect Password'),
                             );
                           }

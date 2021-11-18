@@ -58,7 +58,7 @@ class _AddProfileState extends State<AddProfile> {
       showDialog<String>(
         context: context,
         builder: (BuildContext context) =>
-        const MyDialog(
+        const OKDialog(
             title: 'Please enter data in all fields'),
       );
     }
@@ -171,14 +171,11 @@ class _AddProfileState extends State<AddProfile> {
                       child: ElevatedButton(        // Add button
                         onPressed: () {
                           bool isChild;
-                          String type;
 
                           if (val == 0) {
                             isChild = true;
-                            type = 'Child';
                           } else{
                             isChild = false;
-                            type = 'Adult';
                           }
 
                           bool empty = fieldsEmpty();
@@ -191,11 +188,12 @@ class _AddProfileState extends State<AddProfile> {
                               _currentUser.profiles[_currentUser.numProfiles() - 1].setPasscode(passcode);
                               _currentUser.profiles[_currentUser.numProfiles() - 1].setEmail(email);
                               Navigator.pop(context);
+
                               showDialog<String>(
                                 context: context,
                                 builder: (BuildContext context) =>
                                     AlertDialog(
-                                      title: Text('$type profile for $firstName '
+                                      title: Text('Adult profile for $firstName '
                                           'successfully added',
                                         style: const TextStyle(
                                           fontSize: 24,
@@ -222,7 +220,7 @@ class _AddProfileState extends State<AddProfile> {
                                 context: context,
                                 builder: (BuildContext context) =>
                                     AlertDialog(
-                                      title: Text('$type profile for $firstName '
+                                      title: Text('Child profile for $firstName '
                                           'successfully added',
                                         style: const TextStyle(
                                           fontSize: 24,
@@ -328,7 +326,7 @@ class _RemoveDialogState extends State<RemoveDialog> {
                         showDialog<String>(
                           context: context,
                           builder: (BuildContext context) =>
-                          const MyDialog(title: 'Cannot remove main user profile.'),
+                          const OKDialog(title: 'Cannot remove main user profile.'),
                         );
                       } else {      // Shows confirmation dialog for other selections
                         showDialog<String>(
@@ -395,7 +393,7 @@ class RemoveConfirm extends StatelessWidget {
             showDialog<String>(
               context: context,
               builder: (BuildContext context) =>
-              const MyDialog(title: 'Profile removed'),
+              const OKDialog(title: 'Profile removed'),
             );
           },
           child: const Text('OK',

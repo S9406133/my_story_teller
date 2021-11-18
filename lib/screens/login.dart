@@ -22,7 +22,6 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: bgColor[100],
       body: Center(
         child: SafeArea(
           child: SingleChildScrollView(
@@ -111,7 +110,7 @@ class _LoginState extends State<Login> {
                     }else{
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => const MyDialog(
+                        builder: (BuildContext context) => const OKDialog(
                             title: 'Incorrect Username or Password'),
                       );
                     }

@@ -49,22 +49,6 @@ class _SplashScrState extends State<SplashScr> {
             ),
           ),
           const SizedBox(height: 50.0),
-
-          // ElevatedButton(        // Login button
-          //   onPressed: () {
-          //   Navigator.pushNamed(context, '/login');
-          //   },
-          //   child: const Text('LOG IN',
-          //     style: TextStyle(
-          //       fontSize: 20,
-          //     ),
-          //   ),
-          //   style: ButtonStyle(
-          //     //backgroundColor: MaterialStateProperty.all(buttonColor),
-          //     padding: MaterialStateProperty.all(
-          //         const EdgeInsets.fromLTRB(38, 10, 38, 10)),
-          //   ),
-          // ),
         ],
       ),
     );

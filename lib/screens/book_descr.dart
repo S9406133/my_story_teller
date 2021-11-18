@@ -155,7 +155,7 @@ class _BookDescrState extends State<BookDescr> {
                         if (_result == true){
                           showDialog<String>(     // Success dialog
                             context: context,
-                            builder: (BuildContext context) => MyDialog(
+                            builder: (BuildContext context) => OKDialog(
                                 title: selectedBook.title +
                                     ' has been successfully added.'),
                           );

@@ -120,13 +120,13 @@ class _ProfileNavState extends State<ProfileNav> {
                                   TextButton(           // Dialog OK Button
                                     onPressed: () {
                                       // Checks if passcode entered matches
-                                      if (users[currentUserIndex].current.passcode == newText) {
+                                      if (users[currentUserIndex].currProfile.passcode == newText) {
                                         Navigator.popAndPushNamed(context, '/pHome');
                                       }else{
                                         // Shows new dialog if password incorrect
                                         showDialog<String>(
                                           context: context,
-                                          builder: (BuildContext context) => const MyDialog(
+                                          builder: (BuildContext context) => const OKDialog(
                                               title: 'Incorrect Passcode'),
                                         );
                                       }

@@ -24,6 +24,9 @@ class _BookRecordingState extends State<BookRecording> {
   final recorder = SoundRecorder();
   final player = SoundPlayer();
 
+  // Used to save the duration of the recording
+  final Stopwatch timer = Stopwatch();
+
   final Book _currentBook = users[currentUserIndex].savedBooks[currentBookIndex];
   int _numPages = 0;
 
@@ -33,10 +36,10 @@ class _BookRecordingState extends State<BookRecording> {
   Icon _recordIcon = const Icon(Icons.mic_off_rounded);
   var _recordColor = Colors.blueGrey;
 
-  // Variables for Replay button
-  bool _replayStopped = true;
+  // Variable for Replay button
   Icon _replayIcon = const Icon(Icons.play_arrow_rounded);
 
+  // Set state variables
   var _buttonColor = Colors.grey;
   var _titleColor = Colors.black;
   String _titleText = '';
@@ -66,14 +69,17 @@ class _BookRecordingState extends State<BookRecording> {
   }
 
   // Toggles state of record Button
-  void record() {
+  void recordButton() {
     _isRecording = recorder.isRecording;
     if (_isRecording == true) {
+      timer.reset();
+      timer.start();
       _recordIcon = const Icon(Icons.mic_rounded);
       _recordColor = Colors.red;
       _titleText = 'RECORDING';
       _titleColor = Colors.red;
     } else {
+      timer.stop();
       _recordIcon = const Icon(Icons.mic_off_rounded);
       _recordColor = Colors.blueGrey;
       _titleText = _currentBook.title;
@@ -82,9 +88,8 @@ class _BookRecordingState extends State<BookRecording> {
   }
 
   // Toggles state of replay button
-  void replay() {
-    _replayStopped = player.isPlaying;
-    if (_replayStopped == false) {
+  void replayButton() {
+    if (player.isPlaying == false) {
       _replayIcon = const Icon(Icons.play_arrow_rounded, size: 25);
     } else {
       _replayIcon = const Icon(Icons.stop_rounded, size: 25);
@@ -181,10 +186,10 @@ class _BookRecordingState extends State<BookRecording> {
                             if (recorder.isRecording) await recorder.stop();
                             await player.togglePlaying(
                                 filePath: tempAudioPath,
-                                whenFinished: () => setState(() => replay()));
+                                whenFinished: () => setState(() => replayButton()));
                             setState(() {
-                              replay();
-                              record();
+                              replayButton();
+                              recordButton();
                             });
                           }
                         },
@@ -208,8 +213,8 @@ class _BookRecordingState extends State<BookRecording> {
                           setHasRecording();
                           await recorder.toggleRecording();
                           setState(() {
-                            record();
-                            replay();
+                            recordButton();
+                            replayButton();
                           });
                         },
                         backgroundColor: _recordColor,
@@ -224,8 +229,8 @@ class _BookRecordingState extends State<BookRecording> {
                             if (player.isPlaying) await player.stop();
                             if (recorder.isRecording) await recorder.stop();
                             setState(() {
-                              replay();
-                              record();
+                              replayButton();
+                              recordButton();
                             });
 
                             showDialog<String>(
@@ -249,13 +254,14 @@ class _BookRecordingState extends State<BookRecording> {
                                     onPressed: () async{
                                       String text = 'Error saving recording. Try again';
                                       bool success = false;
-                                      await saveRecording().then((value) => success = value);
+                                      await saveRecording(timer.elapsedMilliseconds)
+                                          .then((value) => success = value);
                                       Navigator.pop(context, 'OK');
                                       if (success == true) text = 'Recording saved';
 
                                       showDialog<String>(
                                           context: context,
-                                          builder: (BuildContext context) => MyDialog(
+                                          builder: (BuildContext context) => OKDialog(
                                               title: text));
                                     },
                                     child: const Text('OK',

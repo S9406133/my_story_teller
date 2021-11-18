@@ -13,6 +13,7 @@ import 'package:my_story_teller/elements/nav_bar.dart';
 void main() {
   runApp(MaterialApp(
     title: 'My Story Teller',
+    debugShowCheckedModeBanner: false,
 
     // Route map for Navigator
     // Screens that have bottom nav must be routed to BottomNav with
@@ -31,8 +32,8 @@ void main() {
       '/settings': (context) => const BottomNav(index: 4),///Settings not an MVF
       '/book': (context) => const BookView(),             ///Book View COMPLETED
       '/bookDescr': (context) => const BookDescr(),       ///Book Description COMPLETED
-      '/recView': (context) => const RecordingView(),     //Recording View TODO needs to play recordings
-      '/bookRec': (context) => const BookRecording(),     //Book Recording TODO
+      '/recView': (context) => const RecordingView(),     ///Recording View COMPLETED
+      '/bookRec': (context) => const BookRecording(),     ///Book Recording COMPLETED
     },
   )
   );

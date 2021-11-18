@@ -6,13 +6,13 @@ import 'package:my_story_teller/elements/dialog_box.dart';
 
   showDialog<String>(
   context: context,
-  builder: (BuildContext context) => const MyDialog(
+  builder: (BuildContext context) => const OKDialog(
   title: '*string*'));
  */
 
-class MyDialog extends StatelessWidget {
+class OKDialog extends StatelessWidget {
   final String title;
-  const MyDialog({Key? key, required this.title}) : super(key: key);
+  const OKDialog({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -17,7 +17,9 @@ class _RegistrationState extends State<Registration> {
   final bgColor = Colors.blueGrey;
   final buttonColor = Colors.teal;
   bool _isChecked = false;
+
   String firstName = '', lastName = '', email = '', password = '';
+
   String termsCond = 'These are the terms and conditions '
       'for using this app, You must agree to them otherwise '
       'we will not let you use it. These are the terms and conditions '
@@ -43,7 +45,6 @@ class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: bgColor[100],
       /* App Bar */
       appBar: AppBar(
         backgroundColor: bgColor[300],
@@ -160,13 +161,13 @@ class _RegistrationState extends State<Registration> {
                             email.isEmpty || password.isEmpty){
                           showDialog<String>(
                             context: context,
-                            builder: (BuildContext context) => const MyDialog(
+                            builder: (BuildContext context) => const OKDialog(
                                 title: 'Please enter data in all fields'),
                           );
                         } else if (_isChecked == false) {  // If checkbox not checked
                           showDialog<String>(
                             context: context,
-                            builder: (BuildContext context) => const MyDialog(
+                            builder: (BuildContext context) => const OKDialog(
                                 title: 'Please view the terms and conditions'),
                           );
                         }else{            // Creates account
