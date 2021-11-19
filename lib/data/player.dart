@@ -20,8 +20,8 @@ class SoundPlayer {
 
   Future play(String filePath, VoidCallback whenFinished) async{
     await _audioPlayer!.startPlayer(
-      fromURI: filePath,
-      whenFinished: whenFinished
+        fromURI: filePath,
+        whenFinished: whenFinished
     );
   }
 

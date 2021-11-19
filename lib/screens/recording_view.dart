@@ -176,11 +176,10 @@ class _RecordingViewState extends State<RecordingView> {
                   _controller.stopAutoplay();
                   // Stops for number of seconds before returning to the start
                   Future.delayed(
-                      const Duration(seconds: 4),
+                    Duration(milliseconds: (_delay * 2)),
                         () async {
-                        if (_audioIsPlaying == true) await player.stop();
-                        setState(() => stopAuto());
-                        },
+                      setState(() => stopAuto());
+                    },
                   );
                 }
                 return Card(
@@ -240,8 +239,8 @@ class _RecordingViewState extends State<RecordingView> {
                       await player.play(
                           _selectedRecording.fileLocation,
                               () => setState(() {
-                                player.stop();
-                                _audioIsPlaying = player.isPlaying;}));
+                            player.stop();
+                            _audioIsPlaying = player.isPlaying;}));
                     }
                     setState(() => playPauseAuto());
                   },

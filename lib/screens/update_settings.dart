@@ -29,11 +29,12 @@ class UpdateSettings extends StatelessWidget {
         margin: const EdgeInsets.all(50),
         child: const Text('This is the update settings screen. '
             'It has not been created, sorry.',
-        style: TextStyle(
-          fontSize: 36,
-          fontWeight: FontWeight.bold,
-        ),),
-      )
+          style: TextStyle(
+            fontSize: 36,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 }

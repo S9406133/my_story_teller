@@ -40,12 +40,11 @@ Future<bool> saveRecording(int duration) async {
 
 void addFileToRecordings(File file, String location, int duration){
   User user = users[currentUserIndex];
-   print('Duration: $duration');
+  print('Duration: $duration');
 
   user.addRecording(
       currentBookIndex,
       Recording(user.currProfile.firstname, location, duration));
-
 }
 
 
