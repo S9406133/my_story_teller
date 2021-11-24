@@ -44,7 +44,10 @@ class _LoginState extends State<Login> {
                   width: 170,
                   height: 170,
                   child: FittedBox(
-                    child: Image.asset('assets/Splash.jpg'),
+                    child: Hero(
+                      tag: 'splash',
+                      child: Image.asset('assets/Splash.jpg'),
+                    ),
                     fit: BoxFit.fitWidth,
                   ),
                 ),

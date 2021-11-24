@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_story_teller/data/user.dart';
 import 'package:my_story_teller/data/book.dart';
+import 'package:my_story_teller/screens/login.dart';
 
 /* Splash screen - Route: '/' */
 
@@ -25,7 +26,13 @@ class _SplashScrState extends State<SplashScr> {
 
   void delay(){
     Future.delayed(const Duration(seconds: 4), () {
-      Navigator.popAndPushNamed(context, '/login');
+      //Navigator.popAndPushNamed(context, '/login');
+      Navigator.push(
+          context,
+          PageRouteBuilder(
+              transitionDuration: const Duration(seconds: 4),
+              pageBuilder: (_, __, ___) => const Login()
+          ));
     });
   }
 
@@ -37,7 +44,10 @@ class _SplashScrState extends State<SplashScr> {
           /* Image box */
           Container(
             margin: const EdgeInsets.fromLTRB(0, 150, 0, 0),
-            child: Image.asset('assets/Splash.jpg'),
+            child: Hero(
+              tag: 'splash',
+              child: Image.asset('assets/Splash.jpg'),
+            ),
           ),
           const SizedBox(height: 10),
           /* Heading */
