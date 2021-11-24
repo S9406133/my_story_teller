@@ -4,6 +4,8 @@ import 'package:my_story_teller/data/book.dart';
 import 'package:my_story_teller/data/user.dart';
 import 'package:my_story_teller/elements/logout_button.dart';
 
+import 'book_descr.dart';
+
 /* Saved Books screen - Route: '/saved' */
 
 class SavedBooks extends StatefulWidget {
@@ -115,8 +117,14 @@ class _SavedBooksState extends State<SavedBooks> {
 
                               GestureDetector(  // Makes top row of card tappable
                                 onTap: (){      // Displays Book Description
+                                  print('${_bookList[index].image}');
                                   setSelectedBook(_bookList[index]);
-                                  Navigator.pushNamed(context, '/bookDescr');
+                                  Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                          transitionDuration: const Duration(seconds: 1),
+                                          pageBuilder: (_, __, ___) => const BookDescr()
+                                      ));
                                 },
                                 child: Row(          // Image and description row
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -127,7 +135,10 @@ class _SavedBooksState extends State<SavedBooks> {
                                       height: 80,
                                       width: 80,
                                       padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                      child: Image.asset('${_bookList[index].image}'),
+                                      child: Hero(
+                                        tag: '${_bookList[index].image}',
+                                        child: Image.asset('${_bookList[index].image}'),
+                                      ),
                                     ),
 
                                     Expanded(

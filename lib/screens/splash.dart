@@ -26,11 +26,10 @@ class _SplashScrState extends State<SplashScr> {
 
   void delay(){
     Future.delayed(const Duration(seconds: 4), () {
-      //Navigator.popAndPushNamed(context, '/login');
       Navigator.push(
           context,
-          PageRouteBuilder(
-              transitionDuration: const Duration(seconds: 4),
+          PageRouteBuilder(   // Delays transition and adds animation
+              transitionDuration: const Duration(seconds: 3),
               pageBuilder: (_, __, ___) => const Login()
           ));
     });
@@ -42,11 +41,20 @@ class _SplashScrState extends State<SplashScr> {
       body: Column(
         children: <Widget>[
           /* Image box */
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 150, 0, 0),
-            child: Hero(
-              tag: 'splash',
-              child: Image.asset('assets/Splash.jpg'),
+          GestureDetector(
+            onTap: () =>
+                Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                        transitionDuration: const Duration(seconds: 3),
+                        pageBuilder: (_, __, ___) => const Login()
+                    )),
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(0, 150, 0, 0),
+              child: Hero(
+                tag: 'splash',
+                child: Image.asset('assets/Splash.jpg'),
+              ),
             ),
           ),
           const SizedBox(height: 10),

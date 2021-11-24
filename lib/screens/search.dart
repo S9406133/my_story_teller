@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_story_teller/data/book.dart';
 import 'package:my_story_teller/elements/logout_button.dart';
 
+import 'book_descr.dart';
+
 /* Search screen - Route '/search' */
 
 class Search extends StatefulWidget {
@@ -222,7 +224,12 @@ class _SearchState extends State<Search> {
                           child: ListTile(
                             onTap: (){
                               setSelectedBook(_searchList[index]);
-                              Navigator.pushNamed(context, '/bookDescr');
+                              Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                      transitionDuration: const Duration(seconds: 1),
+                                      pageBuilder: (_, __, ___) => const BookDescr()
+                                  ));
                             },
                             isThreeLine: true,
                             title: Text(_searchList[index].title,
@@ -237,8 +244,11 @@ class _SearchState extends State<Search> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            leading: CircleAvatar(
-                              backgroundImage: AssetImage('${_searchList[index].image}'),
+                            leading: Hero(
+                              tag: '${_searchList[index].image}',
+                              child: CircleAvatar(
+                                backgroundImage: AssetImage('${_searchList[index].image}'),
+                              ),
                             ),
                           ),
                         ),

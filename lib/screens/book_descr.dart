@@ -24,6 +24,7 @@ class _BookDescrState extends State<BookDescr> {
   void initState() {
     // Sets exists variable
     _exists = users[currentUserIndex].bookExists(selectedBook.title);
+    print('${selectedBook.image}');
     super.initState();
   }
 
@@ -60,7 +61,10 @@ class _BookDescrState extends State<BookDescr> {
                   width: 120,
                   height: 120,
                   child: FittedBox(
-                    child: Image.asset(selectedBook.image!),
+                    child: Hero(
+                      tag: '${selectedBook.image}',
+                      child: Image.asset(selectedBook.image!),
+                    ),
                   ),
                 ),
 
