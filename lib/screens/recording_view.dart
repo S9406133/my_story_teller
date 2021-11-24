@@ -58,6 +58,7 @@ class _RecordingViewState extends State<RecordingView> {
     _selectedRecording = _recordingList[index];
     _delay = (_selectedRecording.duration/_numPages).round();
     print('DELAY: $_delay');
+    print('PATH: ${_selectedRecording.fileLocation}');
   }
 
   // Stop Button

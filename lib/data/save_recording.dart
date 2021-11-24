@@ -26,19 +26,17 @@ Future<bool> saveRecording(int duration) async {
         '$tempDirPath/$tempAudioPath')
         .copy(newPath);
 
-    addFileToRecordings(File(newPath), newPath, duration);
+    print('Saved file path: $newPath');
+    addFileToRecordings(newPath, duration);
 
-    fileCounter++;
   }else {
     print('Temporary Recording file not found');
   }
 
-  print(appDocDir.listSync()); print(tempDirectory.listSync());
-
   return exists;
 }
 
-void addFileToRecordings(File file, String location, int duration){
+void addFileToRecordings(String location, int duration){
   User user = users[currentUserIndex];
   print('Duration: $duration');
 
