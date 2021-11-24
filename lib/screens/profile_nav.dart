@@ -110,7 +110,7 @@ class _ProfileNavState extends State<ProfileNav> {
                                       ),
                                       decoration: InputDecoration(
                                         contentPadding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                        hintText: '1234',
+                                        hintText: 'Passcode',
                                         filled: true,
                                         fillColor: bgColor[50],
                                       ),

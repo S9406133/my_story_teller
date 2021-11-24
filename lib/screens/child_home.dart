@@ -166,7 +166,7 @@ class _ChildHomeState extends State<ChildHome> {
                           ),
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                            hintText: '1234',
+                            hintText: 'Passcode',
                             filled: true,
                             fillColor: themeColor[50],
                           ),
